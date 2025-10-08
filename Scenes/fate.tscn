@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://chl6ofcxttha1"]
+
+[ext_resource type="PackedScene" uid="uid://l5yled8dgfh6" path="res://Fate.blend" id="1_faqq8"]
+[ext_resource type="Material" uid="uid://c3ywby6er0ipc" path="res://fate_skin.tres" id="2_5b5kc"]
+[ext_resource type="Material" uid="uid://uq772eli8gd3" path="res://fate_hair.material" id="2_vw6ag"]
+
+[node name="Fate" instance=ExtResource("1_faqq8")]
+
+[node name="Torso" parent="." index="3"]
+material_override = ExtResource("2_5b5kc")
+
+[node name="Hair" parent="." index="5"]
+material_override = ExtResource("2_vw6ag")
+
+[node name="Skull" parent="." index="6"]
+material_override = ExtResource("2_5b5kc")

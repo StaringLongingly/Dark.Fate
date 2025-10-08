@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcwm6b42pulu3"]
+
+[ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://resolution.gd" id="1_r0du0"]
+[ext_resource type="PackedScene" uid="uid://chl6ofcxttha1" path="res://fate.tscn" id="2_uu6xs"]
+[ext_resource type="Texture2D" uid="uid://drtor42cq2x0p" path="res://Sprites/sample_bg.png" id="4_cm0pq"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_r0du0")
+is_widescreen = true
+
+[node name="Fate" type="Node" parent="."]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Fate"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Fate/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+debug_draw = 1
+anisotropic_filtering_level = 0
+oversampling = false
+size = Vector2i(640, 480)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Fate/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.8210726)
+projection = 1
+size = 5.0
+
+[node name="Fate2" parent="Fate" instance=ExtResource("2_uu6xs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31, -1.825, 0)
+
+[node name="SampleBg" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(320, 240)
+texture = ExtResource("4_cm0pq")
