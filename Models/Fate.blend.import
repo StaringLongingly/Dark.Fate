@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://l5yled8dgfh6"
-path="res://.godot/imported/Fate.blend-320be305ebb1d6cc18e7a36a478caf69.scn"
+path="res://.godot/imported/Fate.blend-d7175a0d7c1dc444e5ed1b449763498b.scn"
 
 [deps]
 
-source_file="res://Fate.blend"
-dest_files=["res://.godot/imported/Fate.blend-320be305ebb1d6cc18e7a36a478caf69.scn"]
+source_file="res://Models/Fate.blend"
+dest_files=["res://.godot/imported/Fate.blend-d7175a0d7c1dc444e5ed1b449763498b.scn"]
 
 [params]
 

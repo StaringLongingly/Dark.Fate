@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dcwm6b42pulu3"]
 
-[ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://resolution.gd" id="1_r0du0"]
-[ext_resource type="PackedScene" uid="uid://chl6ofcxttha1" path="res://fate.tscn" id="2_uu6xs"]
+[ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://Scripts/resolution.gd" id="1_r0du0"]
+[ext_resource type="PackedScene" uid="uid://chl6ofcxttha1" path="res://Scenes/fate.tscn" id="2_uu6xs"]
 [ext_resource type="Texture2D" uid="uid://drtor42cq2x0p" path="res://Sprites/sample_bg.png" id="4_cm0pq"]
 
 [node name="Node2D" type="Node2D"]
@@ -33,7 +33,7 @@ projection = 1
 size = 5.0
 
 [node name="Fate2" parent="Fate" instance=ExtResource("2_uu6xs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31, -1.825, 0)
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
 
 [node name="SampleBg" type="Sprite2D" parent="."]
 z_index = -1
