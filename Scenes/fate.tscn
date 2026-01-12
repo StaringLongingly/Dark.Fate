@@ -1,21 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://chl6ofcxttha1"]
+[gd_scene load_steps=2 format=3 uid="uid://chl6ofcxttha1"]
 
 [ext_resource type="PackedScene" uid="uid://l5yled8dgfh6" path="res://Models/Fate.blend" id="1_faqq8"]
-[ext_resource type="Shader" uid="uid://dw12d4n1mhs3" path="res://Scenes/skin.gdshader" id="2_bw2dy"]
-[ext_resource type="Material" uid="uid://uq772eli8gd3" path="res://Materials/fate_hair.material" id="2_vw6ag"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ivwgr"]
-render_priority = 0
-shader = ExtResource("2_bw2dy")
-shader_parameter/lighting_angle = Vector3(0, 2, 1)
-shader_parameter/gamma = 0.8499999810008
-shader_parameter/light_color = Color(0.9137255, 0.87058824, 0.83137256, 1)
-shader_parameter/base_color = Color(0.85, 0.6131334, 0.527, 1)
 
 [node name="Fate" instance=ExtResource("1_faqq8")]
 
-[node name="Body" parent="." index="4"]
-material_override = SubResource("ShaderMaterial_ivwgr")
+[node name="Arm (From Back)_001" parent="." index="2"]
+visible = false
 
-[node name="Hair" parent="." index="5"]
-material_override = ExtResource("2_vw6ag")
+[node name="Arm (From Inside)" parent="." index="3"]
+visible = false
+
+[node name="Arm (From Outside)" parent="." index="4"]
+visible = false
+
+[node name="Proportions (Back)" parent="." index="5"]
+visible = false
+
+[node name="Proportions (Front)" parent="." index="6"]
+visible = false
+
+[node name="Proportions (Side)" parent="." index="7"]
+visible = false

@@ -1,41 +1,285 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcwm6b42pulu3"]
+[gd_scene load_steps=37 format=3 uid="uid://dswpx1rq8u2dk"]
 
 [ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://Scripts/resolution.gd" id="1_r0du0"]
-[ext_resource type="PackedScene" uid="uid://chl6ofcxttha1" path="res://Scenes/fate.tscn" id="2_uu6xs"]
-[ext_resource type="Texture2D" uid="uid://drtor42cq2x0p" path="res://Sprites/sample_bg.png" id="4_cm0pq"]
+[ext_resource type="Script" uid="uid://brhjg7me1vrs7" path="res://Scripts/character_body_3d.gd" id="3_jw32o"]
+[ext_resource type="PackedScene" uid="uid://bl5q0hdsyxk68" path="res://Models/Fate2.blend" id="4_50glp"]
+[ext_resource type="Material" uid="uid://dlne8dn6m0l62" path="res://Materials/fate_skin.material" id="4_v1gob"]
+[ext_resource type="Material" uid="uid://uq772eli8gd3" path="res://Materials/fate_hair.material" id="5_jw32o"]
+[ext_resource type="Material" uid="uid://dmd7mgg4qmuhu" path="res://Materials/Wood.tres" id="6_v1gob"]
+[ext_resource type="Script" uid="uid://csuypt5yuxd1d" path="res://Scripts/hair.gd" id="6_vy5pj"]
+[ext_resource type="Texture2D" uid="uid://dh3ndyrw4vb5n" path="res://Sprites/Attachments/smiley.png" id="8_4kpch"]
+[ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="8_bmxlf"]
+[ext_resource type="Texture2D" uid="uid://dyap2ehopif4m" path="res://Sprites/sky_red.png" id="9_4kpch"]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pbw6q"]
+height = 1.7907715
+
+[sub_resource type="Environment" id="Environment_pbw6q"]
+background_mode = 1
+background_color = Color(0.13, 0.031980004, 0.028600004, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vy5pj"]
+render_priority = 0
+shader = ExtResource("8_bmxlf")
+shader_parameter/tex = ExtResource("8_4kpch")
+shader_parameter/curvature = Vector2(-11.63, -2.015)
+shader_parameter/anisotropic = true
+shader_parameter/mesh_size = Vector2(13, 13)
+
+[sub_resource type="QuadMesh" id="QuadMesh_bmxlf"]
+material = SubResource("ShaderMaterial_vy5pj")
+size = Vector2(13, 13)
+subdivide_width = 4
+subdivide_depth = 4
+center_offset = Vector3(0, 2.51, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bmxlf"]
+render_priority = 0
+shader = ExtResource("8_bmxlf")
+shader_parameter/tex = ExtResource("9_4kpch")
+shader_parameter/curvature = Vector2(-32.335, 22.07)
+shader_parameter/anisotropic = true
+shader_parameter/mesh_size = Vector2(40, 46.845)
+
+[sub_resource type="QuadMesh" id="QuadMesh_4kpch"]
+material = SubResource("ShaderMaterial_bmxlf")
+size = Vector2(40, 35.19)
+subdivide_width = 4
+subdivide_depth = 4
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bmxlf"]
+load_path = "res://.godot/imported/sky_red.png-9eb2c34428fe533907fe950933409028.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kpch"]
+render_priority = 0
+shader = ExtResource("8_bmxlf")
+shader_parameter/tex = SubResource("CompressedTexture2D_bmxlf")
+shader_parameter/curvature = Vector2(-32.335, -23.26)
+shader_parameter/anisotropic = true
+shader_parameter/mesh_size = Vector2(40, 46.845)
+
+[sub_resource type="QuadMesh" id="QuadMesh_grg3l"]
+material = SubResource("ShaderMaterial_4kpch")
+size = Vector2(30.105, 27.21)
+subdivide_width = 4
+subdivide_depth = 4
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bmxlf"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vy5pj"]
+animation = &"Sword LtR Heavy Attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_grg3l"]
+animation = &"Walk Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_frkhe"]
+animation = &"Walk Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1p5hy"]
+animation = &"Walk Forward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h1m7h"]
+animation = &"Walk Back"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_erwvk"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_grg3l")
+blend_point_0/pos = Vector2(-1, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_frkhe")
+blend_point_1/pos = Vector2(1, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_1p5hy")
+blend_point_2/pos = Vector2(0, 1)
+blend_point_3/node = SubResource("AnimationNodeAnimation_h1m7h")
+blend_point_3/pos = Vector2(0, -1)
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4kpch"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_grg3l"]
+xfade_time = 0.3
+advance_condition = &"attacking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_frkhe"]
+xfade_time = 1.0
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bmxlf"]
+xfade_time = 0.3
+advance_condition = &"attacking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1p5hy"]
+xfade_time = 0.2
+advance_mode = 2
+advance_condition = &"moving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_h1m7h"]
+xfade_time = 0.4
+advance_mode = 2
+advance_expression = "
+self[\"parameters/conditions/moving\"] == false"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1p5hy"]
+states/Idle/node = SubResource("AnimationNodeAnimation_bmxlf")
+states/Idle/position = Vector2(407, 100)
+states/Start/position = Vector2(211, 100)
+"states/Sword LtR Heavy Attack/node" = SubResource("AnimationNodeAnimation_vy5pj")
+"states/Sword LtR Heavy Attack/position" = Vector2(700, 100)
+states/Walk/node = SubResource("AnimationNodeBlendSpace2D_erwvk")
+states/Walk/position = Vector2(541, 251)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_4kpch"), "Idle", "Sword LtR Heavy Attack", SubResource("AnimationNodeStateMachineTransition_grg3l"), "Sword LtR Heavy Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_frkhe"), "Walk", "Sword LtR Heavy Attack", SubResource("AnimationNodeStateMachineTransition_bmxlf"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_1p5hy"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_h1m7h")]
+graph_offset = Vector2(-52, 36.27219)
+
+[sub_resource type="Environment" id="Environment_bmxlf"]
+fog_mode = 1
+fog_light_color = Color(0.29, 0.17612666, 0.110199995, 1)
+fog_density = 1.0
+fog_depth_begin = 2.0
+fog_depth_end = 5.0
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_v1gob"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jw32o"]
+size = Vector3(20, 1, 20)
+
+[node name="Node2D" type="Node3D"]
 script = ExtResource("1_r0du0")
 is_widescreen = true
 
 [node name="Fate" type="Node" parent="."]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Fate"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
+[node name="CharacterBody3D" type="CharacterBody3D" parent="Fate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0146788, 0)
+script = ExtResource("3_jw32o")
 
-[node name="SubViewport" type="SubViewport" parent="Fate/SubViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-debug_draw = 1
-anisotropic_filtering_level = 0
-oversampling = false
-size = Vector2i(640, 480)
-render_target_update_mode = 4
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fate/CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.09631348, 0)
+shape = SubResource("CapsuleShape3D_pbw6q")
 
-[node name="Camera3D" type="Camera3D" parent="Fate/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.8210726)
-projection = 1
-size = 5.0
+[node name="Camera" type="Node3D" parent="Fate/CharacterBody3D"]
 
-[node name="Fate2" parent="Fate" instance=ExtResource("2_uu6xs")]
-transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
+[node name="Camera3D" type="Camera3D" parent="Fate/CharacterBody3D/Camera"]
+transform = Transform3D(-1, 0, -8.742278e-08, -2.6311817e-08, 0.95363295, 0.3009721, 8.336924e-08, 0.3009721, -0.95363295, 0, 1.8838032, -2.3317485)
+environment = SubResource("Environment_pbw6q")
+current = true
+size = 10.0
+far = 100.0
 
-[node name="SampleBg" type="Sprite2D" parent="."]
-z_index = -1
-position = Vector2(320, 240)
-texture = ExtResource("4_cm0pq")
+[node name="Model" type="Node3D" parent="Fate/CharacterBody3D"]
+transform = Transform3D(1.305, 0, 0, 0, 1.305, 0, 0, 0, 1.305, 0, 0.24, 0)
+
+[node name="Fate2" parent="Fate/CharacterBody3D/Model" instance=ExtResource("4_50glp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9395748, 0)
+
+[node name="Skeleton3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature" index="0"]
+bones/0/position = Vector3(0.18481816, -0.054604053, -93.01296)
+bones/0/rotation = Quaternion(-0.57476264, -0.30174178, 0.34118786, 0.67984617)
+bones/1/position = Vector3(-1.5497208e-06, 7.5432463, -0.20933394)
+bones/1/rotation = Quaternion(0.050350465, 0.030943245, -0.02274814, 0.997993)
+bones/2/position = Vector3(4.7683716e-07, 8.803852, -5.4240227e-06)
+bones/2/rotation = Quaternion(0.012673803, 0.011566437, 0.02076241, 0.99963725)
+bones/3/position = Vector3(-1.4156103e-06, 10.061547, 2.8107315e-06)
+bones/3/rotation = Quaternion(0.0038025805, 0.010987521, 0.009528984, 0.9998871)
+bones/4/position = Vector3(0, 11.31922, 5.139921e-06)
+bones/4/rotation = Quaternion(-0.0037143189, 0.08535001, -0.013353553, 0.9962546)
+bones/5/position = Vector3(-9.536743e-07, 6.552072, 0.72895885)
+bones/5/rotation = Quaternion(-0.040493183, 0.2032339, -0.0503937, 0.9769938)
+bones/6/position = Vector3(-7.1525574e-07, 23.878994, 2.6566608)
+bones/7/position = Vector3(-1.5497208e-06, 24.026316, 2.6226044e-06)
+bones/8/position = Vector3(5.7474256, 9.337649, -0.035452798)
+bones/8/rotation = Quaternion(-0.6301297, -0.34170783, 0.5481177, -0.430975)
+bones/9/position = Vector3(-2.087093e-06, 12.139779, -2.1626096e-05)
+bones/9/rotation = Quaternion(0.2347025, 0.026915047, 0.12130555, 0.964093)
+bones/10/position = Vector3(-7.777264e-07, 22.33094, 2.4847684e-05)
+bones/10/rotation = Quaternion(0.21326235, -0.2028854, 0.6907872, 0.66043144)
+bones/11/position = Vector3(7.2717667e-06, 26.911913, -1.3671816e-05)
+bones/11/rotation = Quaternion(1.0908113e-07, 6.5774683e-09, -3.9835876e-10, 1)
+bones/12/position = Vector3(-1.001358e-05, 26.911903, 3.0100337e-06)
+bones/13/position = Vector3(-5.74743, 9.33874, -0.07449218)
+bones/13/rotation = Quaternion(0.4512386, -0.41564652, 0.70637053, 0.35307565)
+bones/14/position = Vector3(7.761896e-07, 12.139783, -3.688215e-05)
+bones/14/rotation = Quaternion(0.2822612, -0.021564472, 0.009706403, 0.9590461)
+bones/15/position = Vector3(-2.364119e-06, 22.337246, 1.1905402e-05)
+bones/15/rotation = Quaternion(0.05978829, 0.023164812, -0.5999711, 0.7974481)
+bones/16/position = Vector3(2.3841847e-07, 26.909468, -1.4483927e-05)
+bones/16/rotation = Quaternion(-5.873153e-08, -1.610169e-08, -2.180059e-08, 1)
+bones/17/position = Vector3(2.8610234e-06, 26.909466, 9.000301e-06)
+bones/18/position = Vector3(9.468073, -4.1870766, -0.9051009)
+bones/18/rotation = Quaternion(0.370297, 0.42677736, 0.80460256, -0.18263605)
+bones/19/position = Vector3(6.174587e-07, 46.663956, -2.5987933e-06)
+bones/19/rotation = Quaternion(-0.3797999, 0.133613, -0.019897139, 0.91515225)
+bones/20/position = Vector3(-3.2284674e-08, 50.532887, -4.094111e-06)
+bones/20/rotation = Quaternion(0.42773616, -0.09873711, -0.06130444, 0.896401)
+bones/21/rotation = Quaternion(0.31044695, 0.11516199, -0.044534013, 0.9425376)
+bones/22/position = Vector3(1.8700955e-06, 4.7665086, -1.6093251e-06)
+bones/23/position = Vector3(8.046627e-07, 4.7665076, 1.1920935e-07)
+bones/24/position = Vector3(-9.468078, -4.1870747, -0.84222335)
+bones/24/rotation = Quaternion(-0.2467714, 0.23475915, 0.9122408, 0.22761537)
+bones/25/rotation = Quaternion(-0.3612656, -0.007638345, -0.048535667, 0.9311676)
+bones/26/position = Vector3(4.351889e-06, 50.532684, 4.944771e-06)
+bones/26/rotation = Quaternion(0.5216493, 0.18283741, 0.2203331, 0.80368274)
+bones/27/position = Vector3(2.1201308e-06, 11.254834, 3.002198e-06)
+bones/27/rotation = Quaternion(0.2880358, -0.090327315, 0.025386974, 0.9530121)
+
+[node name="Body" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D" index="0"]
+material_override = ExtResource("4_v1gob")
+
+[node name="Hair" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D" index="1"]
+material_override = ExtResource("5_jw32o")
+script = ExtResource("6_vy5pj")
+
+[node name="Face" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D" index="2"]
+transform = Transform3D(0.9668848, -0.08221257, -0.24160847, 0.2522555, 0.1641576, 0.95363486, -0.038738877, -0.9830019, 0.17946005, -8.5492, 8.072091, -135.557)
+bone_name = "mixamorig_Head"
+bone_idx = 5
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Face"]
+transform = Transform3D(1, 0, 0, 0, 0.9863345, -0.16475497, 0, 0.16475497, 0.98633415, 0.013786715, 4.5423737, 13.106307)
+mesh = SubResource("QuadMesh_bmxlf")
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D" index="3"]
+transform = Transform3D(0.6397108, -0.16746566, -0.7501501, 0.7670067, 0.20220363, 0.6089452, 0.049705666, -0.96491903, 0.25779915, -0.53013855, 0.62808967, -100.49408)
+bone_name = "mixamorig_Spine"
+bone_idx = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(1, 0, 0, 0, 0.9962773, -0.086199366, 0, 0.086199366, 0.9962773, -4.567406e-06, -8.328438, 16.967306)
+visible = false
+mesh = SubResource("QuadMesh_4kpch")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(1, 0, 0, 0, 0.78626543, 0.61788577, 0, -0.61788577, 0.78626543, -9.134812e-06, 23.94989, 16.615952)
+visible = false
+mesh = SubResource("QuadMesh_grg3l")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="AnimationTree" type="AnimationTree" parent="Fate/CharacterBody3D/Model"]
+root_node = NodePath("../Fate2")
+tree_root = SubResource("AnimationNodeStateMachine_1p5hy")
+anim_player = NodePath("../Fate2/AnimationPlayer")
+parameters/conditions/attacking = false
+parameters/conditions/moving = false
+parameters/Walk/blend_position = Vector2(0.0057803392, 1)
+
+[node name="Timer (For Animator)" type="Timer" parent="Fate"]
+wait_time = 0.083
+autostart = true
+
+[node name="Enviroment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment"]
+environment = SubResource("Environment_bmxlf")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Enviroment"]
+navigation_mesh = SubResource("NavigationMesh_v1gob")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Enviroment/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5447893, 0)
+use_collision = true
+mesh = SubResource("BoxMesh_jw32o")
+material = ExtResource("6_v1gob")
+
+[connection signal="animation_finished" from="Fate/CharacterBody3D/Model/AnimationTree" to="Fate/CharacterBody3D" method="_on_animation_tree_animation_finished"]
+[connection signal="timeout" from="Fate/Timer (For Animator)" to="Fate" method="_on_timer_timeout"]
+
+[editable path="Fate/CharacterBody3D/Model/Fate2"]

@@ -1,16 +1,24 @@
 shader_type spatial;
 render_mode unshaded;
 render_mode cull_disabled;
+
 varying vec3 pos;
-
+uniform vec3 reference_point; // World position of reference bone
+uniform mat3 reference_rotation; // Rotation matrix of reference bone (inverse)
 uniform vec3 base_color: source_color;
+uniform float low_bound;
+uniform float high_bound;
 
-void vertex() { pos = VERTEX; }
+void vertex() { 
+    vec3 world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+    vec3 relative_pos = world_pos - reference_point;
+    pos = reference_rotation * relative_pos; // Rotate into bone's local space
+}
 
 // Inverse lerp of x with bounds a, b
 float linearstep(float a, float b, float x) {
     float result = (x - a) / (b - a);
-    clamp(result, 0., 1.);
+	result = clamp(result, 0., 1.);
     return result;
 }
 
@@ -25,9 +33,7 @@ bool in_arrow(float x, float y) {
 
 void fragment() {
 	float height_unscaled = pos.y;
-	const float LOW_BOUND = -.1;
-	const float HIGH_BOUND = .1;
-	float height = linearstep(LOW_BOUND, HIGH_BOUND, height_unscaled); // From 0. to 1.
+	float height = linearstep(low_bound, high_bound, height_unscaled); // From 0. to 1.
 	float angle = acos(dot(normalize(vec2(pos.x, pos.z)), vec2(0, -1))) / PI; // From 0. to 1.
 
 	vec3 color = base_color;
@@ -40,5 +46,6 @@ void fragment() {
 
 	color = clamp(color, vec3(0.), vec3(1.)); // Prevent Bloom
 	ALBEDO = mix(pow((color.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), color.rgb * (1.0 / 12.92), lessThan(color.rgb, vec3(0.04045)));
-	if (height > 1. || height < 0.) ALBEDO = vec3(1.); // Debugging
+	if (height > 1.) ALBEDO = vec3(1.); // Debugging
+	if (height < 0.) ALBEDO = vec3(0.); // Debugging
 }
