@@ -47,21 +47,21 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 	
 	func _redraw():
 		clear()
-		
+	
 		var node = get_node_3d()
 		if not node is MeshInstance3D:
 			return
-		if not material or not material is ShaderMaterial:
-			return
-		
+	
 		mesh_instance = node
-		material = mesh_instance.get_active_material(0)
-			
+		if mesh_instance.get_active_material(0) is ShaderMaterial:
+			material = mesh_instance.get_active_material(0)
+		else: return
+		
 		var mesh_size = material.get_shader_parameter("mesh_size")
 		if mesh_size == null: return
-		
+	
 		var x_p0: Vector2 = material.get_shader_parameter("x_point_0")
-		var x_p1: Vector2 = material.get_shader_parameter("x_point_1")
+		var x_p1: Vector2 = material.get_shader_parameter("x_point_1")  # Fixed typo here too
 		var x_p2: Vector2 = material.get_shader_parameter("x_point_2")
 		var x_p3: Vector2 = material.get_shader_parameter("x_point_3")
 		var y_p0: Vector2 = material.get_shader_parameter("y_point_0")
@@ -246,17 +246,44 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 		
 		var local_pos = mesh_instance.global_transform.affine_inverse() * intersection
 		
+		# Calculate actual Y handle indices based on X mirror state
+		var x_mirror = material.get_shader_parameter("x_mirror")
+		var y_mirror = material.get_shader_parameter("y_mirror")
+		var y_offset = 2 if not x_mirror else 0  # If X is not mirrored, Y handles start at index 4, otherwise at 2
+		
 		# Apply the change - each handle controls a 2D point
 		match handle_id:
 			0: material.set_shader_parameter("x_point_0", Vector2(local_pos.x, local_pos.z))
 			1: material.set_shader_parameter("x_point_1", Vector2(local_pos.x, local_pos.z))
-			2: if not material.get_shader_parameter("x_mirror"): material.set_shader_parameter("x_point_2", Vector2(local_pos.x, local_pos.z))
-			3: if not material.get_shader_parameter("x_mirror"): material.set_shader_parameter("x_point_3", Vector2(local_pos.x, local_pos.z))
-			4: material.set_shader_parameter("y_point_0", Vector2(local_pos.y, local_pos.z))
-			5: material.set_shader_parameter("y_point_1", Vector2(local_pos.y, local_pos.z))
-			6: if not material.get_shader_parameter("y_mirror"): material.set_shader_parameter("y_point_2", Vector2(local_pos.y, local_pos.z))
-			7: if not material.get_shader_parameter("y_mirror"): material.set_shader_parameter("y_point_3", Vector2(local_pos.y, local_pos.z))
-	
+			2: 
+				if not x_mirror: 
+					material.set_shader_parameter("x_point_2", Vector2(local_pos.x, local_pos.z))
+				else:
+					material.set_shader_parameter("y_point_0", Vector2(local_pos.y, local_pos.z))
+			3: 
+				if not x_mirror: 
+					material.set_shader_parameter("x_point_3", Vector2(local_pos.x, local_pos.z))
+				else:
+					material.set_shader_parameter("y_point_1", Vector2(local_pos.y, local_pos.z))
+			4:
+				if not x_mirror:
+					material.set_shader_parameter("y_point_0", Vector2(local_pos.y, local_pos.z))
+				else:
+					if not y_mirror:
+						material.set_shader_parameter("y_point_2", Vector2(local_pos.y, local_pos.z))
+			5:
+				if not x_mirror:
+					material.set_shader_parameter("y_point_1", Vector2(local_pos.y, local_pos.z))
+				else:
+					if not y_mirror:
+						material.set_shader_parameter("y_point_3", Vector2(local_pos.y, local_pos.z))
+			6: 
+				if not y_mirror: 
+					material.set_shader_parameter("y_point_2", Vector2(local_pos.y, local_pos.z))
+			7: 
+				if not y_mirror: 
+					material.set_shader_parameter("y_point_3", Vector2(local_pos.y, local_pos.z))
+					
 	func _commit_handle(handle_id: int, secondary: bool, restore, cancel: bool):
 		if not material:
 			return

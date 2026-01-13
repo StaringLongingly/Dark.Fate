@@ -16,10 +16,6 @@ run/main_scene="uid://dswpx1rq8u2dk"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://dh3ndyrw4vb5n"
 
-[debug]
-
-settings/stdout/print_fps=true
-
 [display]
 
 window/size/viewport_width=640
@@ -34,6 +30,10 @@ window/stretch/scale_mode="integer"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/bezier_curve_editor/plugin.cfg")
+
+[global_group]
+
+Player=""
 
 [input]
 
