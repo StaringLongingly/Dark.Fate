@@ -2,26 +2,71 @@ shader_type spatial;
 render_mode unshaded, cull_disabled;
 
 uniform sampler2D tex: source_color, filter_nearest;
-uniform vec2 curvature;
-uniform bool anisotropic;
-uniform vec2 mesh_size;
+uniform vec2 mesh_size = vec2(1);
 
-float curve(float size, float input, float strength) {
-	float normalized = input / size;
-	return normalized * normalized * strength;
+// X-axis bezier curve (4 2D points)
+uniform bool x_mirror = true;
+uniform vec2 x_point_0 = vec2(-.5,0);
+uniform vec2 x_point_1 = vec2(-.165,0);
+uniform vec2 x_point_2 = vec2(.165, 0);
+uniform vec2 x_point_3 = vec2(.5,0);
+// Y-axis bezier curve (4 2D points)
+uniform bool y_mirror = true;
+uniform vec2 y_point_0 = vec2(-.5,0);
+uniform vec2 y_point_1 = vec2(-.165,0);
+uniform vec2 y_point_2 = vec2(.165, 0);
+uniform vec2 y_point_3 = vec2(.5,0);
+
+
+// 2D Cubic bezier curve function
+vec2 bezier_cubic_2d(float t, vec2 p0, vec2 p1, vec2 p2, vec2 p3) {
+	float u = 1.0 - t;
+	float tt = t * t;
+	float uu = u * u;
+	float uuu = uu * u;
+	float ttt = tt * t;
+	
+	return uuu * p0 + 3.0 * uu * t * p1 + 3.0 * u * tt * p2 + ttt * p3;
 }
 
 void vertex() {
-	vec2 curve_amount = curvature;
-	vec2 size = mesh_size;
-
-	if (!anisotropic) {
-		curve_amount.y = curve_amount.x;
-		size.y = size.x;
-	}
-
-	VERTEX.z += curve(size.x, VERTEX.x, curve_amount.x);
-	VERTEX.z += curve(size.y, VERTEX.y, curve_amount.y);
+	vec2 size = mesh_size / 2.0;
+	
+	vec2 x0 = x_point_0;
+	vec2 x1 = x_point_1;
+	vec2 x2 = x_point_2;
+	vec2 x3 = x_point_3;
+	
+	vec2 y0 = y_point_0;
+	vec2 y1 = y_point_1;
+	vec2 y2 = y_point_2;
+	vec2 y3 = y_point_3;
+	
+	// Mirror points
+	if (x_mirror) {
+		x2 = vec2(-x1.x, x1.y);
+		x3 = vec2(-x0.x, x0.y); }
+	if (y_mirror) {
+		y2 = vec2(-y1.x, y1.y);
+		y3 = vec2(-y0.x, y0.y); }
+	
+	// X-axis curve: interpolate based on vertex X position
+	float t_x = (VERTEX.x / size.x + 1.0) * 0.5; // Convert from -1..1 to 0..1
+	vec2 curve_x = bezier_cubic_2d(t_x,
+		x0 * mesh_size.x,
+		x1 * mesh_size.x,
+		x2 * mesh_size.x,
+		x3 * mesh_size.x);
+	VERTEX.z += curve_x.y; // Add Z offset from curve
+	
+	// Y-axis curve: interpolate based on vertex Y position
+	float t_y = (VERTEX.y / size.y + 1.0) * 0.5; // Convert from -1..1 to 0..1
+	vec2 curve_y = bezier_cubic_2d(t_y,
+		y0 * mesh_size.y,
+		y1 * mesh_size.y,
+		y2 * mesh_size.y,
+		y3 * mesh_size.y);
+	VERTEX.z += curve_y.y; // Add Z offset from curve
 }
 
 void fragment() {

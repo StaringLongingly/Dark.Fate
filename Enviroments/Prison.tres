@@ -1,0 +1,28 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://qufgacix2872"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_stskr"]
+
+[sub_resource type="Sky" id="Sky_bmxlf"]
+sky_material = SubResource("ProceduralSkyMaterial_stskr")
+
+[resource]
+sky = SubResource("Sky_bmxlf")
+sky_custom_fov = 160.9
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.35000002, 0.35000002, 1)
+ambient_light_energy = 0.63
+ssao_enabled = true
+ssao_radius = 0.19
+ssao_intensity = 11.05
+ssao_detail = 5.0
+ssao_horizon = 0.62
+ssao_sharpness = 0.0
+ssao_light_affect = 0.27
+fog_mode = 1
+fog_light_color = Color(0.29, 0.17612666, 0.110199995, 1)
+fog_density = 1.0
+fog_depth_begin = 2.0
+fog_depth_end = 5.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.3
+volumetric_fog_albedo = Color(0.26, 0.09152001, 0.049399998, 1)
