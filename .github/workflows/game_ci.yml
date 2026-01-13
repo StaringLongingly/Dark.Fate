@@ -123,7 +123,7 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
-          ITCH_GAME: Dark.Fate
+          ITCH_GAME: Dark-Fate
           ITCH_USER: longingly
           PACKAGE: game_windows.zip
           
@@ -144,7 +144,7 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: linux
-          ITCH_GAME: Dark.Fate
+          ITCH_GAME: Dark-Fate
           ITCH_USER: longingly
           PACKAGE: game_linux.zip
 
@@ -165,7 +165,7 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: html
-          ITCH_GAME: Dark.Fate
+          ITCH_GAME: Dark-Fate
           ITCH_USER: longingly
           PACKAGE: game_web.zip
           
