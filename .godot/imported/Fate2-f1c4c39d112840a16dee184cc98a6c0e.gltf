@@ -4661,21 +4661,21 @@
 					"sampler":90,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"scale"
 					}
 				},
 				{
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"scale"
+						"path":"rotation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				}
 			],
@@ -5132,11 +5132,6 @@
 					"output":376
 				},
 				{
-					"input":288,
-					"interpolation":"LINEAR",
-					"output":377
-				},
-				{
 					"input":291,
 					"interpolation":"STEP",
 					"output":108
@@ -5145,6 +5140,11 @@
 					"input":291,
 					"interpolation":"STEP",
 					"output":107
+				},
+				{
+					"input":288,
+					"interpolation":"LINEAR",
+					"output":377
 				}
 			]
 		},
@@ -5784,21 +5784,21 @@
 					"sampler":90,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"scale"
 					}
 				},
 				{
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"scale"
+						"path":"rotation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				}
 			],
@@ -6255,11 +6255,6 @@
 					"output":469
 				},
 				{
-					"input":378,
-					"interpolation":"LINEAR",
-					"output":470
-				},
-				{
 					"input":381,
 					"interpolation":"STEP",
 					"output":108
@@ -6268,6 +6263,11 @@
 					"input":381,
 					"interpolation":"STEP",
 					"output":107
+				},
+				{
+					"input":378,
+					"interpolation":"LINEAR",
+					"output":470
 				}
 			]
 		},
@@ -6907,21 +6907,21 @@
 					"sampler":90,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"scale"
 					}
 				},
 				{
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"scale"
+						"path":"rotation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				}
 			],
@@ -7378,11 +7378,6 @@
 					"output":562
 				},
 				{
-					"input":471,
-					"interpolation":"LINEAR",
-					"output":563
-				},
-				{
 					"input":474,
 					"interpolation":"STEP",
 					"output":108
@@ -7391,6 +7386,11 @@
 					"input":474,
 					"interpolation":"STEP",
 					"output":107
+				},
+				{
+					"input":471,
+					"interpolation":"LINEAR",
+					"output":563
 				}
 			]
 		},
@@ -8030,21 +8030,21 @@
 					"sampler":90,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"scale"
 					}
 				},
 				{
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"scale"
+						"path":"rotation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				}
 			],
@@ -8501,11 +8501,6 @@
 					"output":651
 				},
 				{
-					"input":564,
-					"interpolation":"LINEAR",
-					"output":652
-				},
-				{
 					"input":567,
 					"interpolation":"STEP",
 					"output":108
@@ -8514,6 +8509,11 @@
 					"input":567,
 					"interpolation":"STEP",
 					"output":107
+				},
+				{
+					"input":564,
+					"interpolation":"LINEAR",
+					"output":652
 				}
 			]
 		},
