@@ -205,7 +205,7 @@ jobs:
           ls ..
           echo
           echo
-          ls /home/runner/work/Dark-Fate/Dark-Fate
+          ls /home/runner/work/Dark.Fate/Dark.Fate
  
       - name: Create Release
         id: create_release
