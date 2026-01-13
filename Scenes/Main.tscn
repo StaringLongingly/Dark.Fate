@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://dswpx1rq8u2dk"]
+[gd_scene load_steps=49 format=4 uid="uid://dswpx1rq8u2dk"]
 
 [ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://Scripts/resolution.gd" id="1_r0du0"]
 [ext_resource type="Environment" uid="uid://qufgacix2872" path="res://Enviroments/Prison.tres" id="3_4kpch"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://dhyy40mh8eip" path="res://Scripts/body.gd" id="6_frkhe"]
 [ext_resource type="Material" uid="uid://dmd7mgg4qmuhu" path="res://Materials/Wood.tres" id="6_v1gob"]
 [ext_resource type="Script" uid="uid://csuypt5yuxd1d" path="res://Scripts/hair.gd" id="6_vy5pj"]
+[ext_resource type="Texture2D" uid="uid://dh3ndyrw4vb5n" path="res://Sprites/Attachments/smiley.png" id="8_4kpch"]
 [ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="8_bmxlf"]
 [ext_resource type="Texture2D" uid="uid://dyap2ehopif4m" path="res://Sprites/sky_red.png" id="9_4kpch"]
 [ext_resource type="Script" uid="uid://ddrsv68hhwl8r" path="res://Scripts/weapon.gd" id="11_grg3l"]
@@ -41,7 +42,7 @@ blend_shape_mode = 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vy5pj"]
 render_priority = 0
 shader = ExtResource("8_bmxlf")
-shader_parameter/tex = ExtResource("9_4kpch")
+shader_parameter/tex = ExtResource("8_4kpch")
 shader_parameter/mesh_size = Vector2(1, 1)
 shader_parameter/x_mirror = true
 shader_parameter/x_point_0 = Vector2(-0.43280634, -0.22284961)
@@ -50,7 +51,7 @@ shader_parameter/x_point_2 = Vector2(0.165, 0)
 shader_parameter/x_point_3 = Vector2(0.5, 0)
 shader_parameter/y_mirror = false
 shader_parameter/y_point_0 = Vector2(-0.4462576, -0.171682)
-shader_parameter/y_point_1 = Vector2(-0.3256359, 0.0990178)
+shader_parameter/y_point_1 = Vector2(-0.27005386, 0.05328989)
 shader_parameter/y_point_2 = Vector2(0.07079697, 0.050866365)
 shader_parameter/y_point_3 = Vector2(0.4218359, -0.023103714)
 
