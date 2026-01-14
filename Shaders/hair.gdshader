@@ -6,6 +6,7 @@ varying vec3 pos;
 uniform vec3 reference_point; // World position of reference bone
 uniform mat3 reference_rotation; // Rotation matrix of reference bone (inverse)
 uniform vec3 base_color: source_color;
+uniform vec3 highlight_color: source_color;
 uniform float low_bound;
 uniform float high_bound;
 
@@ -42,10 +43,10 @@ void fragment() {
 
 	float mult = clamp(.5-height, 0., 1.);
 	mult = 1.;
-	if (in_arrow(angle, height-t)) color += vec3(0., 0., 1.) * mult; // Hair Highlight
+	if (in_arrow(angle, height-t)) color += highlight_color * mult; // Hair Highlight
 
 	color = clamp(color, vec3(0.), vec3(1.)); // Prevent Bloom
-	ALBEDO = mix(pow((color.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), color.rgb * (1.0 / 12.92), lessThan(color.rgb, vec3(0.04045)));
+	ALBEDO = color;
 	if (height > 1.) ALBEDO = vec3(1.); // Debugging
 	if (height < 0.) ALBEDO = vec3(0.); // Debugging
 }

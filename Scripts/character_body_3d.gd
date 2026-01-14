@@ -1,5 +1,5 @@
 extends CharacterBody3D
-@export var debug = false;
+@export var debug: bool = false;
 
 const SPEED_FORWARD = 4.0
 const SPEED_STRAFE = 1.5
@@ -22,7 +22,7 @@ func _input(_event):
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		else:
-			try_attacking()
+			_try_attacking()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -33,7 +33,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func exp_decay(a: float, b: float, decay: float, delta: float) -> float:
 	return b+(a-b)*exp(-decay*delta)
 
-func move(delta: float) -> void:
+func _move(delta: float) -> void:
 	if not is_on_floor(): # Gravity
 		velocity += get_gravity() * delta
 
@@ -76,8 +76,8 @@ func move(delta: float) -> void:
 		model.look_at_from_position(Vector3.ZERO, target_vector)
 		if debug: print("Target   : " + str(target_vector))
 		if debug: print("Direction: " + str(camera_forward))
-
 		model.position = model_position_previous # Fix Position Changes by look_at
+		
 	else:
 		model_animation_tree["parameters/conditions/moving"] = false;
 		velocity.x = move_toward(velocity.x, 0, INERTIA)
@@ -85,12 +85,12 @@ func move(delta: float) -> void:
 
 	move_and_slide()
 
-func try_attacking() -> void:
+func _try_attacking() -> void:
 	model_animation_tree["parameters/conditions/attacking"] = true;
 	model_animation_tree["parameters/playback"].travel("Sword LtR Heavy Attack");
 
 func _process(delta: float) -> void:
-	move(delta)
+	_move(delta)
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name.contains("Attack"):
