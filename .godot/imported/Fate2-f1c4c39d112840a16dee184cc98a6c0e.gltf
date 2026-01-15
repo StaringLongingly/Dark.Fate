@@ -4668,14 +4668,14 @@
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"rotation"
 					}
 				}
 			],
@@ -5137,14 +5137,14 @@
 					"output":108
 				},
 				{
-					"input":291,
-					"interpolation":"STEP",
-					"output":107
-				},
-				{
 					"input":288,
 					"interpolation":"LINEAR",
 					"output":377
+				},
+				{
+					"input":291,
+					"interpolation":"STEP",
+					"output":107
 				}
 			]
 		},
@@ -5791,14 +5791,14 @@
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"rotation"
 					}
 				}
 			],
@@ -6260,14 +6260,14 @@
 					"output":108
 				},
 				{
-					"input":381,
-					"interpolation":"STEP",
-					"output":107
-				},
-				{
 					"input":378,
 					"interpolation":"LINEAR",
 					"output":470
+				},
+				{
+					"input":381,
+					"interpolation":"STEP",
+					"output":107
 				}
 			]
 		},
@@ -6914,14 +6914,14 @@
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"rotation"
 					}
 				}
 			],
@@ -7383,14 +7383,14 @@
 					"output":108
 				},
 				{
-					"input":474,
-					"interpolation":"STEP",
-					"output":107
-				},
-				{
 					"input":471,
 					"interpolation":"LINEAR",
 					"output":563
+				},
+				{
+					"input":474,
+					"interpolation":"STEP",
+					"output":107
 				}
 			]
 		},
@@ -8037,14 +8037,14 @@
 					"sampler":91,
 					"target":{
 						"node":32,
-						"path":"rotation"
+						"path":"translation"
 					}
 				},
 				{
 					"sampler":92,
 					"target":{
 						"node":32,
-						"path":"translation"
+						"path":"rotation"
 					}
 				}
 			],
@@ -8506,14 +8506,14 @@
 					"output":108
 				},
 				{
-					"input":567,
-					"interpolation":"STEP",
-					"output":107
-				},
-				{
 					"input":564,
 					"interpolation":"LINEAR",
 					"output":652
+				},
+				{
+					"input":567,
+					"interpolation":"STEP",
+					"output":107
 				}
 			]
 		},

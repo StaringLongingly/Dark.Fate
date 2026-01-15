@@ -1,4 +1,4 @@
-extends MeshInstance3D
+class_name Trail3D extends MeshInstance3D
 @export var debug: bool = false
 @export var tip_object: Node3D
 @export var base_object: Node3D

@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bk5iibndq1vj2"]
+
+[ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="1_cnes7"]
+[ext_resource type="Texture2D" uid="uid://dkqm016wjd3rd" path="res://Sprites/Attachments/chestplate_1.png" id="2_cnes7"]
+
+[resource]
+render_priority = 4
+shader = ExtResource("1_cnes7")
+shader_parameter/tex = ExtResource("2_cnes7")
+shader_parameter/mesh_size = Vector2(2.3, 1.93)
+shader_parameter/x_mirror = true
+shader_parameter/x_point_0 = Vector2(-1.15, -1.236437)
+shader_parameter/x_point_1 = Vector2(-0.97729045, 0.031460047)
+shader_parameter/x_point_2 = Vector2(0.165, 0)
+shader_parameter/x_point_3 = Vector2(1.15, 0)
+shader_parameter/y_mirror = false
+shader_parameter/y_point_0 = Vector2(-0.965, -0.15714109)
+shader_parameter/y_point_1 = Vector2(-0.5838728, 0.8755357)
+shader_parameter/y_point_2 = Vector2(0.033758163, 0.7429209)
+shader_parameter/y_point_3 = Vector2(0.965, -0.5966179)

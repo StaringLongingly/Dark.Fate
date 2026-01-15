@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded;
+render_mode unshaded, blend_mix, depth_test_disabled, depth_draw_never, cull_front;
 
 uniform float t_size: hint_range(0.0, 1.0, 0.01) = 0.;
 uniform float t_alpha: hint_range(0.0, 1.0, 0.01) = 0.;

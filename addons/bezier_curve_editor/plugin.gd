@@ -57,11 +57,23 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 			material = mesh_instance.get_active_material(0)
 		else: return
 		
+		# Get mesh size from the actual mesh AABB
+		var mesh = mesh_instance.mesh
+		if mesh:
+			var aabb = mesh.get_aabb()
+			var mesh_size = Vector2(aabb.size.x, aabb.size.y)
+			# Update the shader parameter with the actual mesh size
+			material.set_shader_parameter("mesh_size", mesh_size)
+		
 		var mesh_size = material.get_shader_parameter("mesh_size")
 		if mesh_size == null: return
+		
+		# Calculate the half extents for locking endpoints
+		var half_x = mesh_size.x / 2.0
+		var half_y = mesh_size.y / 2.0
 	
 		var x_p0: Vector2 = material.get_shader_parameter("x_point_0")
-		var x_p1: Vector2 = material.get_shader_parameter("x_point_1")  # Fixed typo here too
+		var x_p1: Vector2 = material.get_shader_parameter("x_point_1")
 		var x_p2: Vector2 = material.get_shader_parameter("x_point_2")
 		var x_p3: Vector2 = material.get_shader_parameter("x_point_3")
 		var y_p0: Vector2 = material.get_shader_parameter("y_point_0")
@@ -69,37 +81,49 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 		var y_p2: Vector2 = material.get_shader_parameter("y_point_2")
 		var y_p3: Vector2 = material.get_shader_parameter("y_point_3")
 		
+		# Lock endpoint X values based on actual mesh size
+		x_p0.x = -half_x
+		x_p3.x = half_x
+		y_p0.x = -half_y
+		y_p3.x = half_y
+		
+		# Update shader parameters with locked values
+		material.set_shader_parameter("x_point_0", x_p0)
+		material.set_shader_parameter("x_point_3", x_p3)
+		material.set_shader_parameter("y_point_0", y_p0)
+		material.set_shader_parameter("y_point_3", y_p3)
+		
 		# Check for mirrors and adjust the points
 		if material.get_shader_parameter("x_mirror"):
 			x_p2 = Vector2(-x_p1.x, x_p1.y)
-			x_p3 = Vector2(-x_p0.x, x_p0.y)
+			x_p3.y = x_p0.y  # Mirror Y value but keep X locked
 			
 		if material.get_shader_parameter("y_mirror"):
 			y_p2 = Vector2(-y_p1.x, y_p1.y)
-			y_p3 = Vector2(-y_p0.x, y_p0.y)
+			y_p3.y = y_p0.y  # Mirror Y value but keep X locked
 		
 		if x_p0 == null or x_p1 == null or x_p2 == null or x_p3 == null or y_p0 == null or y_p1 == null or y_p2 == null or y_p3 == null or mesh_size == null:
 			return
 		
-		# Add handles for all 8 control points (each is 2D)
+		# Add handles for control points (endpoints only show Y control)
 		var handles = PackedVector3Array()
 		var mirror_handles = PackedVector3Array()
-		handles.append(Vector3(x_p0.x, 0, x_p0.y))  # 0: X-axis P0
+		handles.append(Vector3(x_p0.x, 0, x_p0.y))  # 0: X-axis P0 (Y only)
 		handles.append(Vector3(x_p1.x, 0, x_p1.y))  # 1: X-axis P1
 		if not material.get_shader_parameter("x_mirror"):
 			handles.append(Vector3(x_p2.x, 0, x_p2.y))  # 2: X-axis P2
-			handles.append(Vector3(x_p3.x, 0, x_p3.y))  # 3: X-axis P3
+			handles.append(Vector3(x_p3.x, 0, x_p3.y))  # 3: X-axis P3 (Y only)
 		else:
 			mirror_handles.append(Vector3(x_p2.x, 0, x_p2.y))  # 2: X-axis Mirrored P2
-			mirror_handles.append(Vector3(x_p3.x, 0, x_p3.y))  # 3: X-axis Mirrored P3
-		handles.append(Vector3(0, y_p0.x, y_p0.y))  # 4: Y-axis P0
+			mirror_handles.append(Vector3(x_p3.x, 0, x_p3.y))  # 3: X-axis Mirrored P3 (Y only)
+		handles.append(Vector3(0, y_p0.x, y_p0.y))  # 4: Y-axis P0 (Y only)
 		handles.append(Vector3(0, y_p1.x, y_p1.y))  # 5: Y-axis P1
 		if not material.get_shader_parameter("y_mirror"):
 			handles.append(Vector3(0, y_p2.x, y_p2.y))  # 6: Y-axis P2
-			handles.append(Vector3(0, y_p3.x, y_p3.y))  # 7: Y-axis P3
+			handles.append(Vector3(0, y_p3.x, y_p3.y))  # 7: Y-axis P3 (Y only)
 		else:
 			mirror_handles.append(Vector3(0, y_p2.x, y_p2.y))  # 6: Y-axis Mirrored P2
-			mirror_handles.append(Vector3(0, y_p3.x, y_p3.y))  # 7: Y-axis Mirrored P3
+			mirror_handles.append(Vector3(0, y_p3.x, y_p3.y))  # 7: Y-axis Mirrored P3 (Y only)
 		
 		var handle_ids := PackedInt32Array()
 		for i in handles.size():
@@ -116,7 +140,7 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 		if mirror_handles.size() > 0:
 			var mirror_ids := PackedInt32Array()
 			for i in mirror_handles.size():
-				mirror_ids.append(handles.size() + i) # unique IDs
+				mirror_ids.append(handles.size() + i)
 
 			add_handles(
 				mirror_handles,
@@ -197,34 +221,16 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 		var ttt = tt * t
 		return uuu * p0 + 3.0 * uu * t * p1 + 3.0 * u * tt * p2 + ttt * p3
 	
-	func bezier_cubic(t: float, p0: float, p1: float, p2: float, p3: float) -> float:
-		var u = 1.0 - t
-		var tt = t * t
-		var uu = u * u
-		var uuu = uu * u
-		var ttt = tt * t
-		return uuu * p0 + 3.0 * uu * t * p1 + 3.0 * u * tt * p2 + ttt * p3
-	
-	func _get_handle_value(handle_id: int, secondary: bool):
-		if not material:
-			return null
-		
-		var cp1 = material.get_shader_parameter("control_point_1")
-		var cp2 = material.get_shader_parameter("control_point_2")
-		
-		if cp1 == null or cp2 == null:
-			return null
-		
-		match handle_id:
-			0: return cp1.x
-			1: return cp2.x
-			2: return cp1.y
-			3: return cp2.y
-		return null
-	
 	func _set_handle(handle_id: int, secondary: bool, camera: Camera3D, screen_pos: Vector2):
 		if not material or not mesh_instance:
 			return
+		
+		# Get mesh size for locking calculations
+		var mesh_size = material.get_shader_parameter("mesh_size")
+		if mesh_size == null:
+			return
+		var half_x = mesh_size.x / 2.0
+		var half_y = mesh_size.y / 2.0
 		
 		# Get the handle position in 3D space
 		var handle_pos = _get_handle_pos(handle_id)
@@ -249,25 +255,31 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 		# Calculate actual Y handle indices based on X mirror state
 		var x_mirror = material.get_shader_parameter("x_mirror")
 		var y_mirror = material.get_shader_parameter("y_mirror")
-		var y_offset = 2 if not x_mirror else 0  # If X is not mirrored, Y handles start at index 4, otherwise at 2
 		
 		# Apply the change - each handle controls a 2D point
+		# Points 0 and 3 have locked X values, only Y can change
 		match handle_id:
-			0: material.set_shader_parameter("x_point_0", Vector2(local_pos.x, local_pos.z))
-			1: material.set_shader_parameter("x_point_1", Vector2(local_pos.x, local_pos.z))
+			0: 
+				# X point 0: X is locked at -half_x, only Y (depth) changes
+				material.set_shader_parameter("x_point_0", Vector2(-half_x, local_pos.z))
+			1: 
+				material.set_shader_parameter("x_point_1", Vector2(local_pos.x, local_pos.z))
 			2: 
 				if not x_mirror: 
 					material.set_shader_parameter("x_point_2", Vector2(local_pos.x, local_pos.z))
 				else:
-					material.set_shader_parameter("y_point_0", Vector2(local_pos.y, local_pos.z))
+					# Y point 0: X is locked at -half_y, only Y (depth) changes
+					material.set_shader_parameter("y_point_0", Vector2(-half_y, local_pos.z))
 			3: 
 				if not x_mirror: 
-					material.set_shader_parameter("x_point_3", Vector2(local_pos.x, local_pos.z))
+					# X point 3: X is locked at half_x, only Y (depth) changes
+					material.set_shader_parameter("x_point_3", Vector2(half_x, local_pos.z))
 				else:
 					material.set_shader_parameter("y_point_1", Vector2(local_pos.y, local_pos.z))
 			4:
 				if not x_mirror:
-					material.set_shader_parameter("y_point_0", Vector2(local_pos.y, local_pos.z))
+					# Y point 0: X is locked at -half_y, only Y (depth) changes
+					material.set_shader_parameter("y_point_0", Vector2(-half_y, local_pos.z))
 				else:
 					if not y_mirror:
 						material.set_shader_parameter("y_point_2", Vector2(local_pos.y, local_pos.z))
@@ -276,37 +288,66 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 					material.set_shader_parameter("y_point_1", Vector2(local_pos.y, local_pos.z))
 				else:
 					if not y_mirror:
-						material.set_shader_parameter("y_point_3", Vector2(local_pos.y, local_pos.z))
+						# Y point 3: X is locked at half_y, only Y (depth) changes
+						material.set_shader_parameter("y_point_3", Vector2(half_y, local_pos.z))
 			6: 
 				if not y_mirror: 
 					material.set_shader_parameter("y_point_2", Vector2(local_pos.y, local_pos.z))
 			7: 
 				if not y_mirror: 
-					material.set_shader_parameter("y_point_3", Vector2(local_pos.y, local_pos.z))
+					# Y point 3: X is locked at half_y, only Y (depth) changes
+					material.set_shader_parameter("y_point_3", Vector2(half_y, local_pos.z))
 					
 	func _commit_handle(handle_id: int, secondary: bool, restore, cancel: bool):
 		if not material:
 			return
+		
+		# Get mesh size for locking calculations
+		var mesh_size = material.get_shader_parameter("mesh_size")
+		if mesh_size == null:
+			return
+		var half_x = mesh_size.x / 2.0
+		var half_y = mesh_size.y / 2.0
 			
 		if cancel and restore != null:
 			if restore is Array and restore.size() >= 8:
-				material.set_shader_parameter("x_point_0", restore[0])
+				# Restore with locked X values
+				var x_p0 = restore[0]
+				x_p0.x = -half_x
+				material.set_shader_parameter("x_point_0", x_p0)
+				
 				if not material.get_shader_parameter("x_mirror"):
 					material.set_shader_parameter("x_point_1", restore[1])
 					material.set_shader_parameter("x_point_2", restore[2])
-				material.set_shader_parameter("x_point_3", restore[3])
+					
+				var x_p3 = restore[3]
+				x_p3.x = half_x
+				material.set_shader_parameter("x_point_3", x_p3)
 				
-				material.set_shader_parameter("y_point_0", restore[4])
+				var y_p0 = restore[4]
+				y_p0.x = -half_y
+				material.set_shader_parameter("y_point_0", y_p0)
+				
 				if not material.get_shader_parameter("y_mirror"): 
 					material.set_shader_parameter("y_point_1", restore[5])
 					material.set_shader_parameter("y_point_2", restore[6])
-				material.set_shader_parameter("y_point_3", restore[7])
+					
+				var y_p3 = restore[7]
+				y_p3.x = half_y
+				material.set_shader_parameter("y_point_3", y_p3)
 		
 		_redraw()
 	
 	func _get_handle_pos(handle_id: int) -> Vector3:
 		if not material:
 			return Vector3.ZERO
+		
+		# Get mesh size for locking calculations
+		var mesh_size = material.get_shader_parameter("mesh_size")
+		if mesh_size == null:
+			return Vector3.ZERO
+		var half_x = mesh_size.x / 2.0
+		var half_y = mesh_size.y / 2.0
 		
 		var x_p0 = material.get_shader_parameter("x_point_0")
 		var x_p1 = material.get_shader_parameter("x_point_1")
@@ -319,6 +360,12 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 		
 		if x_p0 == null or x_p1 == null or x_p2 == null or x_p3 == null or y_p0 == null or y_p1 == null or y_p2 == null or y_p3 == null:
 			return Vector3.ZERO
+		
+		# Ensure endpoints have locked X values based on mesh size
+		x_p0.x = -half_x
+		x_p3.x = half_x
+		y_p0.x = -half_y
+		y_p3.x = half_y
 		
 		match handle_id:
 			0: return Vector3(x_p0.x, 0, x_p0.y)

@@ -1,14 +1,16 @@
 shader_type spatial;
 render_mode unshaded;
-render_mode cull_disabled;
+render_mode cull_disabled; // Janky geometry T-T
+render_mode blend_mix, depth_draw_opaque; // For effects
 varying vec3 pos;
 varying vec3 normal;
 
 uniform vec3 lighting_angle;
-uniform float gamma: hint_range(0.0, 1.0, 0.01);
+uniform float gamma: hint_range(-1.0, 1.0, 0.01);
+uniform bool use_lambert = true;
 uniform vec3 light_color: source_color;
+uniform float light_strength: hint_range(0.0, 1.0, 0.01);
 uniform vec3 base_color: source_color;
-uniform float base_alpha: hint_range(0., 1., 0.01) = .8;
 
 uniform float head_radius = 2.;
 uniform float hand_radius = 2.;
@@ -30,13 +32,17 @@ float linearstep(float a, float b, float x) {
 }
 
 void fragment() {
-	float dot_product = dot(normalize(lighting_angle), NORMAL);
-	float lambert = clamp(dot_product, 0., 1.);
-	float t = lambert + gamma;
+	float t = 0.;
+	if (use_lambert) {
+		float dot_product = dot(normalize(lighting_angle), NORMAL);
+		float lambert = clamp(dot_product, 0., 1.);
+		t = lambert;
+	}
 	
-	vec3 color = mix(base_color, light_color, t);
+	vec3 color = mix(base_color, light_color, pow(t, 1./light_strength)) + gamma;
 	color = clamp(color, vec3(0.), vec3(1.)); // Prevent Bloom
-	ALBEDO = mix(pow((color.rgb + vec3(0.055)) * (1.0 / (1.0 + 0.055)), vec3(2.4)), color.rgb * (1.0 / 12.92), lessThan(color.rgb, vec3(0.04045)));
+	ALBEDO = color;
+	ALPHA = 1.;
 	
 	// Figure out if it should render
 	bool transparent = true;
@@ -46,6 +52,5 @@ void fragment() {
 	transparent = transparent && (distance(world_pos, right_hand_pos) > hand_radius);
 	transparent = transparent && (distance(world_pos, left_foot_pos) > foot_radius);
 	transparent = transparent && (distance(world_pos, right_foot_pos) > foot_radius);
-	if (transparent) ALPHA = 0.;
-	else ALPHA = clamp(base_alpha, 0., 1.);
+	if (transparent) discard;
 }

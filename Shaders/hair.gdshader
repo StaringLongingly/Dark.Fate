@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode unshaded;
 render_mode cull_disabled;
+render_mode blend_mix, depth_draw_opaque; // For effects
 
 varying vec3 pos;
 uniform vec3 reference_point; // World position of reference bone
@@ -10,7 +11,7 @@ uniform vec3 highlight_color: source_color;
 uniform float low_bound;
 uniform float high_bound;
 
-void vertex() { 
+void vertex() {
     vec3 world_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
     vec3 relative_pos = world_pos - reference_point;
     pos = reference_rotation * relative_pos; // Rotate into bone's local space
@@ -49,4 +50,5 @@ void fragment() {
 	ALBEDO = color;
 	if (height > 1.) ALBEDO = vec3(1.); // Debugging
 	if (height < 0.) ALBEDO = vec3(0.); // Debugging
+	ALPHA = 1.;
 }

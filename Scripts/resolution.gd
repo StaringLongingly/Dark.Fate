@@ -3,8 +3,9 @@ extends Node
 @onready var window: Window = get_window() 
 @onready var base_size: Vector2i = window.content_scale_size
 
-@export var debug: bool = false;
-@export var is_widescreen: bool = false; 
+@export var debug: bool = false
+@export var is_widescreen: bool = false
+@export var crt: ColorRect
 var min_size = Vector2(640, 480)
 
 func _ready():
@@ -27,4 +28,6 @@ func _on_window_size_changed():
 		print("   3d Scale       : " + str(scale_3d))
 	# $Fate/SubViewportContainer/SubViewport.scaling_3d_scale = scale_3d
 	# window.content_scale_size = scale_size;
+	crt.material.set_shader_parameter("screen_width", scale_size.x)
+	crt.material.set_shader_parameter("screen_height", scale_size.y)
 	if is_widescreen: window.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP_WIDTH

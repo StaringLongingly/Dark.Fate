@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://kr2qflh72jsp"]
+
+[ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="1_rx65g"]
+[ext_resource type="Texture2D" uid="uid://v7ejmobxsncp" path="res://Sprites/Attachments/strap.png" id="2_rx65g"]
+
+[resource]
+render_priority = 5
+shader = ExtResource("1_rx65g")
+shader_parameter/tex = ExtResource("2_rx65g")
+shader_parameter/mesh_size = Vector2(1.5, 1.365)
+shader_parameter/x_mirror = true
+shader_parameter/x_point_0 = Vector2(-0.75, -0.10227394)
+shader_parameter/x_point_1 = Vector2(-0.25376236, 0.0035591125)
+shader_parameter/x_point_2 = Vector2(0.165, 0)
+shader_parameter/x_point_3 = Vector2(0.75, 0)
+shader_parameter/y_mirror = false
+shader_parameter/y_point_0 = Vector2(-0.6825, -0.44555664)
+shader_parameter/y_point_1 = Vector2(-0.48654538, 0.023907661)
+shader_parameter/y_point_2 = Vector2(0.5590344, 0.12936306)
+shader_parameter/y_point_3 = Vector2(0.6825, -0.37721252)

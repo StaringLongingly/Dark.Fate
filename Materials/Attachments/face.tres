@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c3ljbpdlwtaf3"]
+
+[ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="1_f1sqp"]
+[ext_resource type="Texture2D" uid="uid://dh3ndyrw4vb5n" path="res://Sprites/Attachments/smiley.png" id="2_f1sqp"]
+
+[resource]
+render_priority = 5
+shader = ExtResource("1_f1sqp")
+shader_parameter/tex = ExtResource("2_f1sqp")
+shader_parameter/mesh_size = Vector2(1, 1)
+shader_parameter/x_mirror = true
+shader_parameter/x_point_0 = Vector2(-0.5, -0.23136175)
+shader_parameter/x_point_1 = Vector2(-0.17478362, 0.032096863)
+shader_parameter/x_point_2 = Vector2(0.165, 0)
+shader_parameter/x_point_3 = Vector2(0.5, 0)
+shader_parameter/y_mirror = false
+shader_parameter/y_point_0 = Vector2(-0.5, -0.16965455)
+shader_parameter/y_point_1 = Vector2(-0.098656654, 0.093449)
+shader_parameter/y_point_2 = Vector2(0.165, 0)
+shader_parameter/y_point_3 = Vector2(0.5, 0)

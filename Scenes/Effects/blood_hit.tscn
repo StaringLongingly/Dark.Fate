@@ -1,23 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj4ulpby5thev"]
+[gd_scene load_steps=6 format=3 uid="uid://cj4ulpby5thev"]
 
 [ext_resource type="Shader" uid="uid://sfmbs1bk3um8" path="res://Shaders/blood_hit.gdshader" id="1_h6xhm"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_346fj"]
-render_priority = 0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h6xhm"]
+resource_local_to_scene = true
+render_priority = 1
 shader = ExtResource("1_h6xhm")
 shader_parameter/t_size = 0.0
 shader_parameter/t_alpha = 0.0
 shader_parameter/t_color = 0.0
 shader_parameter/start_color = Color(0.79, 0.12640002, 0.12640002, 1)
-shader_parameter/end_color = Color(0.13, 0.010399997, 0.010399997, 1)
+shader_parameter/end_color = Color(0.67, 0.05359999, 0.05359999, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_erwvk"]
-material = SubResource("ShaderMaterial_346fj")
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_h6xhm")
 size = Vector2(4, 0.75)
 
 [sub_resource type="Animation" id="Animation_2w5on"]
 resource_name = "Blood Hit"
-length = 0.7015
+length = 0.704
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -55,49 +57,9 @@ tracks/2/keys = {
 "values": [0.0, 0.999999977648]
 }
 
-[sub_resource type="Animation" id="Animation_346fj"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:mesh:material:shader_parameter/t1")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.999999977648]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:mesh:material:shader_parameter/t2")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:mesh:material:shader_parameter/t_color")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_346fj"]
 _data = {
-&"Blood Hit": SubResource("Animation_2w5on"),
-&"RESET": SubResource("Animation_346fj")
+&"Blood Hit": SubResource("Animation_2w5on")
 }
 
 [node name="Blood Hit" type="MeshInstance3D"]
@@ -108,3 +70,4 @@ mesh = SubResource("QuadMesh_erwvk")
 libraries = {
 &"": SubResource("AnimationLibrary_346fj")
 }
+autoplay = "Blood Hit"
