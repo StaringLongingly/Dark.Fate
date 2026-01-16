@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://kwe1yj0suqib" path="res://Sprites/Trails/trail_simple.png" id="2_8bm6w"]
 
 [resource]
-render_priority = 0
+render_priority = 3
 shader = ExtResource("1_8bm6w")
 shader_parameter/tex = ExtResource("2_8bm6w")
 shader_parameter/flip_x = false

@@ -24,7 +24,7 @@ func _ready() -> void:
 	
 	for surface_index: int in mesh_instance.mesh.get_surface_count():
 		var material: StandardMaterial3D = mesh_instance.mesh.surface_get_material(surface_index)
-		material.render_priority = 2
+		material.render_priority = render_priorities
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		material.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
 		material.cull_mode = BaseMaterial3D.CULL_DISABLED

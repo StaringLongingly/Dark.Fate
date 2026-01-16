@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://v7ejmobxsncp" path="res://Sprites/Attachments/strap.png" id="2_rx65g"]
 
 [resource]
-render_priority = 5
+render_priority = 3
 shader = ExtResource("1_rx65g")
 shader_parameter/tex = ExtResource("2_rx65g")
 shader_parameter/mesh_size = Vector2(1.5, 1.365)

@@ -176,29 +176,31 @@ subdivide_width = 1
 subdivide_depth = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_frkhe"]
-size = Vector3(450, 320, 150)
+size = Vector3(197.53876, 320, 150)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iocxu"]
 resource_name = "Material"
-render_priority = 2
-albedo_color = Color(0.47298294, 0.52787656, 0.52787656, 1)
-metallic = 2.0
-roughness = 0.32
+render_priority = 3
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 0.09066665, 0.16, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yagkp"]
 resource_name = "Material.001"
-render_priority = 2
+render_priority = 3
+transparency = 1
 cull_mode = 2
-albedo_color = Color(0.26772472, 0.32911918, 0.40001824, 1)
-metallic = 0.72
-roughness = 0.32
+shading_mode = 0
+albedo_color = Color(0.603, 0.6510167, 0.67, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u6euu"]
 resource_name = "Material.003"
-render_priority = 2
+render_priority = 3
+transparency = 1
 cull_mode = 2
+shading_mode = 0
 albedo_color = Color(0.4559957, 0.24357228, 0.07750403, 1)
-roughness = 0.95
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_t73k3"]
 _surfaces = [{
@@ -243,7 +245,7 @@ _surfaces = [{
 "index_count": 336,
 "index_data": PackedByteArray("AAABAAIAAAADAAEAAQADAAQAAwAAAAUAAwAFAAYABwAIAAkABwAKAAgACgAHAAsACwAHAAwACgALAA0ADgAPABAADgARAA8AEAAPABIAEAASABMAFAAVABYAFAAXABUAGAAZABoAGAAbABkAGgAZABwAGgAcAB0AHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAJgApACcAKgArACwAKgAtACsALgAvADAALgAxAC8AMgAzADQAMgA1ADMANgA3ADgANgA5ADcAOgA7ADwAOgA9ADsAPgA/AEAAPgBBAD8AQgBDAEQARQBGAEcASABJAEoASABLAEkATABNAE4ATABPAE0AUABRAFIAUABTAFEAVABVAFYAVABXAFUAWABZAFoAWABbAFkAXABdAF4AXABfAF0AYABhAGIAYABjAGEAZABlAGYAZABnAGUAaABpAGoAaQBoAGsAawBoAGwAaQBrAG0AaQBtAG4AbwBwAHEAcgBwAG8AcAByAHMAcwByAHQAcABzAHUAdgB3AHgAdgB5AHcAeQB6AHcAeQB7AHoAfAB9AH4AfAB/AH0AgACBAIIAgACDAIEAgwCEAIEAgwCFAIQAhgCHAIgAhgCJAIcAigCLAIwAigCNAIsAjgCPAJAAjgCRAI8AkgCTAJQAkgCVAJMAlgCXAJgAlgCZAJcAmgCbAJwAmgCdAJsAngCfAKAAngChAJ8AogCjAKQAogClAKMApgCnAKgApgCpAKcAqgCrAKwArQCuAK8AsACxALIAsACzALEAtAC1ALYAtAC3ALUAuAC5ALoAuAC7ALkAvAC9AL4AvAC/AL0AwADBAMIAwADDAMEAxADFAMYAxADHAMUAyADJAMoAyADLAMkAzADNAM4AzADPAM0A"),
 "material": SubResource("StandardMaterial3D_iocxu"),
-"name": "Material",
+"name": "Guard",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 208,
@@ -255,7 +257,7 @@ _surfaces = [{
 "index_count": 60,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEwAUABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AIgAjACQAIgAlACMAJgAnACgAKQAqACsA"),
 "material": SubResource("StandardMaterial3D_yagkp"),
-"name": "Material.001",
+"name": "Edge",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 44,
@@ -267,7 +269,7 @@ _surfaces = [{
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
 "material": SubResource("StandardMaterial3D_u6euu"),
-"name": "Material.003",
+"name": "Handle",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 24,
@@ -3491,7 +3493,7 @@ script = ExtResource("11_grg3l")
 debug = true
 framepacer = NodePath("../../../../../../AnimationTree/Animation Framepacer")
 body_enter_detection = false
-render_priorities = 4.0
+render_priorities = 3.0
 trail = NodePath("Trail")
 effect_scene = ExtResource("17_2w5on")
 camera = NodePath("../../../../../../../Camera/Camera3D")

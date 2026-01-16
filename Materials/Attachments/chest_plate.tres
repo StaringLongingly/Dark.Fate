@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dkqm016wjd3rd" path="res://Sprites/Attachments/chestplate_1.png" id="2_cnes7"]
 
 [resource]
-render_priority = 4
+render_priority = 3
 shader = ExtResource("1_cnes7")
 shader_parameter/tex = ExtResource("2_cnes7")
 shader_parameter/mesh_size = Vector2(2.3, 1.93)
