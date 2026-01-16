@@ -8,6 +8,7 @@ render_priority = 3
 shader = ExtResource("1_rx65g")
 shader_parameter/tex = ExtResource("2_rx65g")
 shader_parameter/mesh_size = Vector2(1.5, 1.365)
+shader_parameter/alpha_scissor = 0.5
 shader_parameter/x_mirror = true
 shader_parameter/x_point_0 = Vector2(-0.75, -0.10227394)
 shader_parameter/x_point_1 = Vector2(-0.25376236, 0.0035591125)

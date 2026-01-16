@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=4 uid="uid://dswpx1rq8u2dk"]
+[gd_scene load_steps=74 format=4 uid="uid://dswpx1rq8u2dk"]
 
 [ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://Scripts/resolution.gd" id="1_r0du0"]
 [ext_resource type="Environment" uid="uid://qufgacix2872" path="res://Enviroments/Prison.tres" id="3_4kpch"]
@@ -11,13 +11,17 @@
 [ext_resource type="Material" uid="uid://c3ljbpdlwtaf3" path="res://Materials/Attachments/face.tres" id="8_erwvk"]
 [ext_resource type="Material" uid="uid://bk5iibndq1vj2" path="res://Materials/Attachments/chest_plate.tres" id="9_2w5on"]
 [ext_resource type="Material" uid="uid://kr2qflh72jsp" path="res://Materials/Attachments/chest_strap.tres" id="10_346fj"]
+[ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="11_fq0cl"]
 [ext_resource type="Script" uid="uid://ddrsv68hhwl8r" path="res://Scripts/weapon.gd" id="11_grg3l"]
+[ext_resource type="Texture2D" uid="uid://v7ejmobxsncp" path="res://Sprites/Attachments/strap.png" id="11_sxkr1"]
 [ext_resource type="Script" uid="uid://bkc5b4myrtvy3" path="res://Scripts/animation_framepacer.gd" id="13_1p5hy"]
 [ext_resource type="Material" uid="uid://bgumykcdxyc6i" path="res://Materials/weapon_trail.tres" id="13_erwvk"]
 [ext_resource type="Animation" uid="uid://4d14j2tbcac3" path="res://Animations/Sword LtR Heavy.anim" id="14_2w5on"]
 [ext_resource type="Script" uid="uid://cpdun30ix0ane" path="res://Scripts/trail.gd" id="14_erwvk"]
+[ext_resource type="Texture2D" uid="uid://dlbnngdo04cv" path="res://Sprites/Attachments/trapezoid_plate.png" id="14_hwpts"]
 [ext_resource type="PackedScene" uid="uid://cj4ulpby5thev" path="res://Scenes/Effects/blood_hit.tscn" id="17_2w5on"]
 [ext_resource type="Shader" uid="uid://sfmbs1bk3um8" path="res://Shaders/blood_hit.gdshader" id="18_346fj"]
+[ext_resource type="Texture2D" uid="uid://c3md0orhqkyen" path="res://Sprites/planks.png" id="21_hwpts"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pbw6q"]
 radius = 0.7866211
@@ -172,6 +176,102 @@ subdivide_depth = 4
 resource_local_to_scene = true
 material = ExtResource("10_346fj")
 size = Vector2(1.5, 1.365)
+subdivide_width = 1
+subdivide_depth = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jyqft"]
+render_priority = 3
+shader = ExtResource("11_fq0cl")
+shader_parameter/tex = ExtResource("11_sxkr1")
+shader_parameter/mesh_size = Vector2(1.5, 1.365)
+shader_parameter/alpha_scissor = 0.5
+shader_parameter/x_mirror = false
+shader_parameter/x_point_0 = Vector2(-0.75, -0.32875222)
+shader_parameter/x_point_1 = Vector2(-0.25376236, 0.0035591125)
+shader_parameter/x_point_2 = Vector2(0.165, 0)
+shader_parameter/x_point_3 = Vector2(0.75, -0.042808592)
+shader_parameter/y_mirror = true
+shader_parameter/y_point_0 = Vector2(-0.6825, -0.16810387)
+shader_parameter/y_point_1 = Vector2(-0.58575946, 0.07496798)
+shader_parameter/y_point_2 = Vector2(0.5590344, 0.12936306)
+shader_parameter/y_point_3 = Vector2(0.6825, -0.14656949)
+
+[sub_resource type="QuadMesh" id="QuadMesh_3tgeq"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_jyqft")
+size = Vector2(1.5, 1.365)
+subdivide_width = 1
+subdivide_depth = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aht7i"]
+render_priority = 3
+shader = ExtResource("11_fq0cl")
+shader_parameter/tex = ExtResource("14_hwpts")
+shader_parameter/mesh_size = Vector2(2.8050003, 2)
+shader_parameter/alpha_scissor = 0.5
+shader_parameter/x_mirror = true
+shader_parameter/x_point_0 = Vector2(-1.4025002, -0.7703638)
+shader_parameter/x_point_1 = Vector2(-0.19204977, 0.09412646)
+shader_parameter/x_point_2 = Vector2(0.165, 0)
+shader_parameter/x_point_3 = Vector2(1.4025002, -0.75275636)
+shader_parameter/y_mirror = false
+shader_parameter/y_point_0 = Vector2(-1, 0.7195539)
+shader_parameter/y_point_1 = Vector2(-0.17945862, 0.6826611)
+shader_parameter/y_point_2 = Vector2(0.45701027, 0.0709402)
+shader_parameter/y_point_3 = Vector2(1, -0.10822916)
+
+[sub_resource type="QuadMesh" id="QuadMesh_5jffn"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_aht7i")
+size = Vector2(2.805, 2)
+subdivide_width = 2
+subdivide_depth = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fq0cl"]
+render_priority = 3
+shader = ExtResource("11_fq0cl")
+shader_parameter/tex = ExtResource("14_hwpts")
+shader_parameter/mesh_size = Vector2(1.1, 0.815)
+shader_parameter/alpha_scissor = 0.5
+shader_parameter/x_mirror = false
+shader_parameter/x_point_0 = Vector2(-0.55, -0.47794735)
+shader_parameter/x_point_1 = Vector2(-0.4186111, 0.037429094)
+shader_parameter/x_point_2 = Vector2(0.37684983, -0.32574886)
+shader_parameter/x_point_3 = Vector2(0.55, -0.4874407)
+shader_parameter/y_mirror = false
+shader_parameter/y_point_0 = Vector2(-0.4075, 0.3115605)
+shader_parameter/y_point_1 = Vector2(-0.19780016, 0.25183535)
+shader_parameter/y_point_2 = Vector2(0.28683567, 0.09238613)
+shader_parameter/y_point_3 = Vector2(0.4075, -0.047945797)
+
+[sub_resource type="QuadMesh" id="QuadMesh_hwpts"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_fq0cl")
+size = Vector2(1.1, 0.815)
+subdivide_width = 1
+subdivide_depth = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hwpts"]
+render_priority = 3
+shader = ExtResource("11_fq0cl")
+shader_parameter/tex = ExtResource("11_sxkr1")
+shader_parameter/mesh_size = Vector2(1.42, 1)
+shader_parameter/alpha_scissor = 0.5
+shader_parameter/x_mirror = true
+shader_parameter/x_point_0 = Vector2(-0.71, -0.13573599)
+shader_parameter/x_point_1 = Vector2(-0.3227296, 0.01542902)
+shader_parameter/x_point_2 = Vector2(0.165, 0)
+shader_parameter/x_point_3 = Vector2(0.71, -0.042808592)
+shader_parameter/y_mirror = false
+shader_parameter/y_point_0 = Vector2(-0.5, -0.28958702)
+shader_parameter/y_point_1 = Vector2(-0.22571316, 0.28830123)
+shader_parameter/y_point_2 = Vector2(0.6877912, -0.35100675)
+shader_parameter/y_point_3 = Vector2(0.5, -0.29852605)
+
+[sub_resource type="QuadMesh" id="QuadMesh_jyqft"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_hwpts")
+size = Vector2(1.42, 1)
 subdivide_width = 1
 subdivide_depth = 3
 
@@ -3154,6 +3254,12 @@ graph_offset = Vector2(-52, 36.27219)
 [sub_resource type="BoxMesh" id="BoxMesh_jw32o"]
 size = Vector3(20, 1, 20)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jyqft"]
+shading_mode = 0
+albedo_texture = ExtResource("21_hwpts")
+uv1_scale = Vector3(1.6, 1, 1)
+texture_filter = 0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0sclb"]
 resource_local_to_scene = true
 render_priority = 0
@@ -3438,7 +3544,7 @@ bone_name = "mixamorig_Head"
 bone_idx = 5
 
 [node name="Face" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Head"]
-transform = Transform3D(15.325671, 0, 0, 0, 15.325675, -5.7092603e-08, 0, 5.7092592e-08, 15.325672, 0.013786715, 6.111786, 13.10631)
+transform = Transform3D(15.325671, 0, 0, 0, 15.325675, -5.7092603e-08, 0, 5.7092592e-08, 15.325672, 0.013786715, 6.528061, 13.106311)
 mesh = SubResource("QuadMesh_bmxlf")
 
 [node name="Chest" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
@@ -3471,6 +3577,47 @@ transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0.7151394, -109.56745)
 bone_name = "mixamorig_Hips"
 bone_idx = 0
 
+[node name="Skirt Front Strap" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Hips"]
+transform = Transform3D(-6.6990634e-07, 15.32564, 0, -15.32567, -6.69905e-07, 0, 0, 0, 15.325644, 0, 5.637512, 10.171442)
+mesh = SubResource("QuadMesh_3tgeq")
+skeleton = NodePath("../../Chest")
+
+[node name="Back Skirt Plate" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Hips"]
+transform = Transform3D(-15.325698, 0, -1.339813e-06, 0, 15.325706, 0, 1.3398151e-06, 0, -15.325674, 0, -3.6772995, -14.155837)
+mesh = SubResource("QuadMesh_5jffn")
+skeleton = NodePath("../../Chest")
+
+[node name="Left Skirt Plate" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Hips"]
+transform = Transform3D(13.272444, 0, 7.662837, 0, 15.325706, 0, -7.6628485, 0, 13.272423, 12.050104, 3.6599503, 11.536017)
+mesh = SubResource("QuadMesh_hwpts")
+skeleton = NodePath("../../Chest")
+
+[node name="Skirt Left Strap" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Hips/Left Skirt Plate"]
+transform = Transform3D(-0.25145486, -0.23683766, 0.9384426, 0.9659239, -4.2221835e-08, 0.2588185, -0.06129805, 0.971547, 0.22876783, 0.82338953, 0.07923889, -0.6881682)
+mesh = SubResource("QuadMesh_jyqft")
+skeleton = NodePath("../../../Chest")
+
+[node name="Right Skirt Plate" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Hips"]
+transform = Transform3D(-13.272, 0, -7.663, 0, 15.326, 0, -7.663, 0, 13.272, -12.05, 3.6598816, 11.535846)
+rotation_edit_mode = 2
+mesh = SubResource("QuadMesh_hwpts")
+skeleton = NodePath("../../Chest")
+
+[node name="Skirt Right Strap" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Hips/Right Skirt Plate"]
+transform = Transform3D(-0.25145486, -0.23683757, 0.9384427, 0.96592396, -4.2221835e-08, 0.2588185, -0.06129805, 0.9715469, 0.22876784, 0.82338953, 0.07923889, -0.6881682)
+mesh = SubResource("QuadMesh_jyqft")
+skeleton = NodePath("../../../Chest")
+
+[node name="Left Thigh" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
+transform = Transform3D(-0.99969935, -0.02453998, 7.156061e-07, 0.0011674461, -0.047529742, 0.9988707, -0.024512207, 0.9985682, 0.047544163, 9.468074, -0.18996525, -105.38038)
+bone_name = "mixamorig_LeftUpLeg"
+bone_idx = 18
+
+[node name="Right Thigh" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0.7151394, -109.56745)
+bone_name = "mixamorig_Hips"
+bone_idx = 0
+
 [node name="Left Hand" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(0.067850076, 0.99768484, -0.004508369, -0.9966457, 0.06798525, 0.045553587, 0.045754656, 0.0014023186, 0.99895144, 66.384026, 2.5987678, -141.59317)
 bone_name = "mixamorig_LeftHand"
@@ -3493,7 +3640,7 @@ script = ExtResource("11_grg3l")
 debug = true
 framepacer = NodePath("../../../../../../AnimationTree/Animation Framepacer")
 body_enter_detection = false
-render_priorities = 3.0
+render_priorities = 3
 trail = NodePath("Trail")
 effect_scene = ExtResource("17_2w5on")
 camera = NodePath("../../../../../../../Camera/Camera3D")
@@ -3581,6 +3728,8 @@ material = ExtResource("6_v1gob")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9949045, 3.205862)
 use_collision = true
 radius = 0.64501953
+sides = 16
+material = SubResource("StandardMaterial3D_jyqft")
 
 [node name="Effects" type="Node" parent="."]
 unique_name_in_owner = true

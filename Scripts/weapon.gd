@@ -7,7 +7,7 @@ class_name Weapon extends Area3D
 
 @export_group("Materials")
 @export var mesh_instance: MeshInstance3D
-@export var render_priorities: float = 2;
+@export var render_priorities: int = 2;
 
 @export_group("Effect")
 @export var trail: Trail3D
