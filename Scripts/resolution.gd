@@ -28,6 +28,4 @@ func _on_window_size_changed():
 		print("   3d Scale       : " + str(scale_3d))
 	# $Fate/SubViewportContainer/SubViewport.scaling_3d_scale = scale_3d
 	# window.content_scale_size = scale_size;
-	crt.material.set_shader_parameter("screen_width", scale_size.x)
-	crt.material.set_shader_parameter("screen_height", scale_size.y)
 	if is_widescreen: window.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP_WIDTH

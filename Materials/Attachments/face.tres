@@ -1,12 +1,20 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c3ljbpdlwtaf3"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://c3ljbpdlwtaf3"]
 
 [ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="1_f1sqp"]
-[ext_resource type="Texture2D" uid="uid://dh3ndyrw4vb5n" path="res://Sprites/Attachments/smiley.png" id="2_f1sqp"]
+[ext_resource type="Texture2D" uid="uid://bi2wc82s2sayb" path="res://Sprites/Attachments/Faces/face0.png" id="2_f1sqp"]
+[ext_resource type="Texture2D" uid="uid://dvubgq2v45rla" path="res://Sprites/Attachments/Faces/face1.png" id="3_a364d"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_l5rhl"]
+frames = 2
+frame_0/texture = ExtResource("2_f1sqp")
+frame_0/duration = 15.0
+frame_1/texture = ExtResource("3_a364d")
+frame_1/duration = 0.15
 
 [resource]
 render_priority = 5
 shader = ExtResource("1_f1sqp")
-shader_parameter/tex = ExtResource("2_f1sqp")
+shader_parameter/tex = SubResource("AnimatedTexture_l5rhl")
 shader_parameter/mesh_size = Vector2(1, 1)
 shader_parameter/x_mirror = true
 shader_parameter/x_point_0 = Vector2(-0.5, -0.23136175)

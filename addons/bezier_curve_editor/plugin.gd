@@ -72,6 +72,7 @@ class BezierCurveGizmo extends EditorNode3DGizmo:
 		var half_x = mesh_size.x / 2.0
 		var half_y = mesh_size.y / 2.0
 	
+		if material.get_shader_parameter("x_point_0") == null: return
 		var x_p0: Vector2 = material.get_shader_parameter("x_point_0")
 		var x_p1: Vector2 = material.get_shader_parameter("x_point_1")
 		var x_p2: Vector2 = material.get_shader_parameter("x_point_2")

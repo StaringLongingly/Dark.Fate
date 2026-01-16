@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=4 uid="uid://dswpx1rq8u2dk"]
+[gd_scene load_steps=61 format=4 uid="uid://dswpx1rq8u2dk"]
 
 [ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://Scripts/resolution.gd" id="1_r0du0"]
 [ext_resource type="Environment" uid="uid://qufgacix2872" path="res://Enviroments/Prison.tres" id="3_4kpch"]
@@ -18,7 +18,6 @@
 [ext_resource type="Script" uid="uid://cpdun30ix0ane" path="res://Scripts/trail.gd" id="14_erwvk"]
 [ext_resource type="PackedScene" uid="uid://cj4ulpby5thev" path="res://Scenes/Effects/blood_hit.tscn" id="17_2w5on"]
 [ext_resource type="Shader" uid="uid://sfmbs1bk3um8" path="res://Shaders/blood_hit.gdshader" id="18_346fj"]
-[ext_resource type="Shader" uid="uid://bdjp2ked1kj7c" path="res://addons/crt_shader/CRTShader.gdshader" id="19_0sclb"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pbw6q"]
 radius = 0.7866211
@@ -173,8 +172,8 @@ subdivide_depth = 4
 resource_local_to_scene = true
 material = ExtResource("10_346fj")
 size = Vector2(1.5, 1.365)
-subdivide_width = 3
-subdivide_depth = 4
+subdivide_width = 1
+subdivide_depth = 3
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_frkhe"]
 size = Vector3(450, 320, 150)
@@ -3157,65 +3156,52 @@ size = Vector3(20, 1, 20)
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("18_346fj")
-shader_parameter/t_size = 0.0
-shader_parameter/t_alpha = 0.0
-shader_parameter/t_color = 0.0
-shader_parameter/start_color = Color(0.79, 0.12640002, 0.12640002, 1)
-shader_parameter/end_color = Color(0.67, 0.05359999, 0.05359999, 1)
+shader_parameter/height = 0.0
+shader_parameter/t_spawn = 0.0
+shader_parameter/t_despawn = 0.0
+shader_parameter/resolution = 16
+shader_parameter/start_color = Color(0, 0, 0, 1)
+shader_parameter/end_color = Color(0, 0, 0, 1)
 
 [sub_resource type="QuadMesh" id="QuadMesh_sxkr1"]
 resource_local_to_scene = true
 material = SubResource("ShaderMaterial_0sclb")
 size = Vector2(4, 0.75)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sxkr1"]
-shader = ExtResource("19_0sclb")
-shader_parameter/screen_width = 640.0
-shader_parameter/screen_height = 480.0
-shader_parameter/BarrelPower = 1.1
-shader_parameter/color_bleeding = 1.2
-shader_parameter/bleeding_range_x = 1.0
-shader_parameter/bleeding_range_y = 1.0
-shader_parameter/lines_distance = 4.0
-shader_parameter/scan_size = 0.61
-shader_parameter/scanline_alpha = 0.9
-shader_parameter/lines_velocity = 30.0
-
-[node name="root" type="Node3D" node_paths=PackedStringArray("crt")]
+[node name="root" type="Node3D"]
 script = ExtResource("1_r0du0")
 debug = true
 is_widescreen = true
-crt = NodePath("CRT")
 
 [node name="Fate" type="Node" parent="."]
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Fate" groups=["Player"]]
+[node name="Entity" type="CharacterBody3D" parent="Fate" groups=["Player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0146788, 0)
 script = ExtResource("3_jw32o")
 
-[node name="Hurtbox" type="CollisionShape3D" parent="Fate/CharacterBody3D"]
+[node name="Hurtbox" type="CollisionShape3D" parent="Fate/Entity"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.089538574, 0)
 shape = SubResource("CapsuleShape3D_pbw6q")
 
-[node name="Camera" type="Node3D" parent="Fate/CharacterBody3D"]
+[node name="Camera" type="Node3D" parent="Fate/Entity"]
 
-[node name="Camera3D" type="Camera3D" parent="Fate/CharacterBody3D/Camera"]
+[node name="Camera3D" type="Camera3D" parent="Fate/Entity/Camera"]
 transform = Transform3D(-1, 0, -8.742278e-08, -2.6311817e-08, 0.95363295, 0.3009721, 8.336924e-08, 0.3009721, -0.95363295, 0, 1.8838032, -2.3317485)
 environment = ExtResource("3_4kpch")
 current = true
 size = 10.0
 far = 100.0
 
-[node name="Model" type="Node3D" parent="Fate/CharacterBody3D"]
+[node name="Model" type="Node3D" parent="Fate/Entity"]
 transform = Transform3D(1.305, 0, 0, 0, 1.305, 0, 0, 0, 1.305, 0, 0.24, 0)
 
-[node name="Fate2" type="Node3D" parent="Fate/CharacterBody3D/Model"]
+[node name="Fate2" type="Node3D" parent="Fate/Entity/Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9395748, 0)
 
-[node name="Armature" type="Node3D" parent="Fate/CharacterBody3D/Model/Fate2"]
+[node name="Armature" type="Node3D" parent="Fate/Entity/Model/Fate2"]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 
-[node name="Skeleton3D" type="Skeleton3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature"]
+[node name="Skeleton3D" type="Skeleton3D" parent="Fate/Entity/Model/Fate2/Armature"]
 bones/0/name = "mixamorig_Hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0.7151394, -109.56745)
@@ -3427,7 +3413,7 @@ bones/29/position = Vector3(-4.246831e-07, 4.8119736, 0)
 bones/29/rotation = Quaternion(-4.8312363e-09, -1.1932573e-09, 1.6298146e-09, 1)
 bones/29/scale = Vector3(1, 0.9999999, 0.99999994)
 
-[node name="Body" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D" node_paths=PackedStringArray("head", "left_hand", "right_hand", "left_foot", "right_foot")]
+[node name="Body" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D" node_paths=PackedStringArray("head", "left_hand", "right_hand", "left_foot", "right_foot")]
 mesh = SubResource("ArrayMesh_frkhe")
 skin = SubResource("Skin_bvjwc")
 surface_material_override/0 = ExtResource("4_v1gob")
@@ -3438,87 +3424,88 @@ right_hand = NodePath("../Right Hand/Right Palm")
 left_foot = NodePath("../Left Foot")
 right_foot = NodePath("../Right Foot")
 
-[node name="Hair" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Hair" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_xk14k")
 skin = SubResource("Skin_bvjwc")
 surface_material_override/0 = ExtResource("5_jw32o")
 script = ExtResource("6_vy5pj")
 
-[node name="Head" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Head" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(1, 0, 0, 0, -3.72529e-09, 0.9999999, 0, -0.99999976, -3.7252907e-09, 0, 0.3974245, -153.83585)
 bone_name = "mixamorig_Head"
 bone_idx = 5
 
-[node name="Face" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Head"]
+[node name="Face" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Head"]
 transform = Transform3D(15.325671, 0, 0, 0, 15.325675, -5.7092603e-08, 0, 5.7092592e-08, 15.325672, 0.013786715, 6.111786, 13.10631)
 mesh = SubResource("QuadMesh_bmxlf")
 
-[node name="Spine" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
-transform = Transform3D(1, 0, 0, 0, -0.02774039, 0.9996151, 0, -0.9996151, -0.02774039, 0, 0.505806, -117.11071)
-bone_name = "mixamorig_Spine"
-bone_idx = 1
-
-[node name="Spine1" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Chest" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(1, 0, 0, 0, -0.02774042, 0.9996151, 0, -0.9996151, -0.02774042, 0, 0.26158392, -125.91118)
 bone_name = "mixamorig_Spine1"
 bone_idx = 2
 
-[node name="Chest Plate" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Spine1"]
+[node name="Chest Plate" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Chest"]
 transform = Transform3D(15.325671, 0, 0, 0, 15.3256445, -6.854534e-07, 0, 5.662441e-07, 15.325643, 0.013786715, 7.51474, 19.885519)
 mesh = SubResource("QuadMesh_2w5on")
 
-[node name="Left Chest Strap" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Spine1/Chest Plate"]
-transform = Transform3D(0.9948912, -0.0028004488, 0.10091321, -0.10091321, 0.00014163447, 0.9948952, -0.002800446, -0.999996, -0.00014169142, 0.5559743, 1.1265745, -1.3270401)
+[node name="Left Chest Strap" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Chest/Chest Plate"]
+transform = Transform3D(0.9948912, -0.0028004488, 0.10091321, -0.10091321, 0.00014163447, 0.9948952, -0.002800446, -0.999996, -0.00014169142, 0.5559743, 1.182, -1.3270401)
 mesh = SubResource("QuadMesh_0sclb")
 skeleton = NodePath("../..")
 
-[node name="Right Chest Strap" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Spine1/Chest Plate"]
-transform = Transform3D(-0.995, 0.003, -0.101, -0.101, 0, 0.995, -0.003, -1, 0, -0.557743, 1.1265602, -1.3270257)
+[node name="Right Chest Strap" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Chest/Chest Plate"]
+transform = Transform3D(-0.995, 0.003, -0.101, -0.101, 0, 0.995, -0.003, -1, 0, -0.557743, 1.182, -1.3270257)
 rotation_edit_mode = 2
 mesh = SubResource("QuadMesh_0sclb")
 skeleton = NodePath("../..")
 
-[node name="Spine2" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Torso" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(1, 0, 0, 0, -0.02774039, 0.9996151, 0, -0.9996151, -0.02774039, 0, 0.505806, -117.11071)
 bone_name = "mixamorig_Spine"
 bone_idx = 1
 
-[node name="Left Hand" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Hips" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0.7151394, -109.56745)
+bone_name = "mixamorig_Hips"
+bone_idx = 0
+
+[node name="Left Hand" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(0.067850076, 0.99768484, -0.004508369, -0.9966457, 0.06798525, 0.045553587, 0.045754656, 0.0014023186, 0.99895144, 66.384026, 2.5987678, -141.59317)
 bone_name = "mixamorig_LeftHand"
 bone_idx = 11
 
-[node name="Left Palm" type="Node3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Left Hand"]
+[node name="Left Palm" type="Node3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Left Hand"]
 transform = Transform3D(0.9999998, 7.450581e-09, -3.7252903e-09, 0, 0.9999999, 2.3283064e-10, -3.7252903e-09, -2.3283064e-10, 0.9999999, 0.37517262, 5.5166397, -0.024932861)
 
-[node name="Right Hand" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Right Hand" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(0.066497006, -0.9977751, 0.004737278, 0.9965276, 0.06665078, 0.049902983, -0.050107654, 0.0014023272, 0.9987425, -66.38402, 2.5728784, -141.5932)
 bone_name = "mixamorig_RightHand"
 bone_idx = 16
 
-[node name="Right Palm" type="Node3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand"]
+[node name="Right Palm" type="Node3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand"]
 transform = Transform3D(0.9999998, 7.450581e-09, -3.7252903e-09, 0, 0.9999999, 2.3283064e-10, -3.7252903e-09, -2.3283064e-10, 0.9999999, 0.37517262, 5.5166397, -0.024932861)
 
-[node name="Claysword" type="Area3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm" node_paths=PackedStringArray("framepacer", "trail", "camera")]
+[node name="Claysword" type="Area3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm" node_paths=PackedStringArray("framepacer", "trail", "camera")]
 transform = Transform3D(0.024083033, 0.29897755, 0.005698681, -0.27141693, 0.019455427, 0.12631075, 0.12551074, -0.015295568, 0.27205357, 6.942776, 0.6472397, -0.79875183)
 script = ExtResource("11_grg3l")
 debug = true
 framepacer = NodePath("../../../../../../AnimationTree/Animation Framepacer")
 body_enter_detection = false
+render_priorities = 4.0
 trail = NodePath("Trail")
 effect_scene = ExtResource("17_2w5on")
 camera = NodePath("../../../../../../../Camera/Camera3D")
 
-[node name="Hitbox" type="CollisionShape3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword"]
+[node name="Hitbox" type="CollisionShape3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 180, 0)
 shape = SubResource("BoxShape3D_frkhe")
 
-[node name="Mesh" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword"]
+[node name="Mesh" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword"]
 transform = Transform3D(0.99999994, -1.4901161e-08, 0, 0, 0.9999998, 0, -1.4901161e-08, -5.9604645e-08, 0.99999994, 3.0517578e-05, 3.0517578e-05, 0)
 mesh = SubResource("ArrayMesh_2qtya")
 skeleton = NodePath("")
 
-[node name="Trail" type="MeshInstance3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" node_paths=PackedStringArray("tip_object", "base_object", "framepacer")]
+[node name="Trail" type="MeshInstance3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" node_paths=PackedStringArray("tip_object", "base_object", "framepacer")]
 mesh = SubResource("ArrayMesh_2w5on")
 script = ExtResource("14_erwvk")
 tip_object = NodePath("../Trail Bounds/Tip")
@@ -3528,37 +3515,37 @@ trail_length = 10
 subdivisions = 4
 trail_material = ExtResource("13_erwvk")
 
-[node name="Trail Bounds" type="Node3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword"]
+[node name="Trail Bounds" type="Node3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword"]
 
-[node name="Tip" type="Marker3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword/Trail Bounds"]
+[node name="Tip" type="Marker3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword/Trail Bounds"]
 transform = Transform3D(0.9999996, 1.1175871e-08, -1.2642704e-07, 1.1175871e-08, 0.9999998, 3.7252903e-08, -3.4458935e-08, 0, 0.99999964, 0, 230, 0)
 gizmo_extents = 10.0
 
-[node name="Base" type="Marker3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword/Trail Bounds"]
+[node name="Base" type="Marker3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword/Trail Bounds"]
 transform = Transform3D(0.99999946, 1.4901161e-08, -1.5622936e-07, 1.1175871e-08, 0.99999976, 3.7252903e-08, -6.449409e-08, 7.450581e-09, 0.9999996, 0, 60, 0)
 gizmo_extents = 10.0
 
-[node name="Left Foot" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Left Foot" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(-0.9932708, 0.06659322, 0.09476147, 0.11002585, 0.798083, 0.59241927, -0.03617635, 0.5988579, -0.80003774, 6.5554466, -1.7606535, -8.285404)
 bone_name = "mixamorig_LeftFoot"
 bone_idx = 20
 
-[node name="Right Foot" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Right Foot" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(-0.99349344, -0.065816455, -0.09295024, -0.10801153, 0.8033461, 0.58563966, 0.036126386, 0.5918673, -0.80522496, -6.5554523, -2.016906, -8.285439)
 bone_name = "mixamorig_RightFoot"
 bone_idx = 26
 
-[node name="Head Top" type="BoneAttachment3D" parent="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D"]
+[node name="Head Top" type="BoneAttachment3D" parent="Fate/Entity/Model/Fate2/Armature/Skeleton3D"]
 transform = Transform3D(1, 0, 0, 0, -3.7252899e-09, 0.9999998, 0, -0.9999997, -3.7252903e-09, 0, 3.0540872, -177.71484)
 bone_name = "mixamorig_HeadTop_End"
 bone_idx = 6
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Fate/CharacterBody3D/Model/Fate2"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Fate/Entity/Model/Fate2"]
 libraries = {
 &"": SubResource("AnimationLibrary_d6p3p")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="Fate/CharacterBody3D/Model"]
+[node name="AnimationTree" type="AnimationTree" parent="Fate/Entity/Model"]
 root_node = NodePath("../Fate2")
 callback_mode_process = 2
 tree_root = SubResource("AnimationNodeStateMachine_1p5hy")
@@ -3567,10 +3554,11 @@ parameters/conditions/attacking = false
 parameters/conditions/moving = false
 parameters/Walk/blend_position = Vector2(0.0057803392, 1)
 
-[node name="Animation Framepacer" type="Timer" parent="Fate/CharacterBody3D/Model/AnimationTree"]
+[node name="Animation Framepacer" type="Timer" parent="Fate/Entity/Model/AnimationTree"]
 script = ExtResource("13_1p5hy")
+attack_fps = 20
 
-[node name="Effect Plane" type="Node3D" parent="Fate/CharacterBody3D"]
+[node name="Effect Plane" type="Node3D" parent="Fate/Entity"]
 transform = Transform3D(-1, 0, -8.742278e-08, -2.6311817e-08, 0.95363295, 0.3009721, 8.336924e-08, 0.3009721, -0.95363295, 0, 0.5, 1.4)
 
 [node name="Enviroment" type="Node3D" parent="."]
@@ -3599,17 +3587,6 @@ unique_name_in_owner = true
 transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 1.5400686, 1.8390957)
 mesh = SubResource("QuadMesh_sxkr1")
 
-[node name="CRT" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_sxkr1")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 2
-
-[connection signal="body_entered" from="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" to="Fate/CharacterBody3D/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" method="_on_body_entered"]
-[connection signal="animation_finished" from="Fate/CharacterBody3D/Model/AnimationTree" to="Fate/CharacterBody3D" method="_on_animation_tree_animation_finished"]
-[connection signal="timeout" from="Fate/CharacterBody3D/Model/AnimationTree/Animation Framepacer" to="Fate/CharacterBody3D/Model/AnimationTree/Animation Framepacer" method="_on_timeout"]
+[connection signal="body_entered" from="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" to="Fate/Entity/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" method="_on_body_entered"]
+[connection signal="animation_finished" from="Fate/Entity/Model/AnimationTree" to="Fate/Entity" method="_on_animation_tree_animation_finished"]
+[connection signal="timeout" from="Fate/Entity/Model/AnimationTree/Animation Framepacer" to="Fate/Entity/Model/AnimationTree/Animation Framepacer" method="_on_timeout"]

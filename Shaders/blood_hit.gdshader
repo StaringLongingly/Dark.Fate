@@ -1,33 +1,42 @@
 shader_type spatial;
-render_mode unshaded, blend_mix, depth_test_disabled, depth_draw_never, cull_front;
+render_mode unshaded, blend_mix, depth_test_disabled, depth_draw_never, cull_disabled;
 
-uniform float t_size: hint_range(0.0, 1.0, 0.01) = 0.;
-uniform float t_alpha: hint_range(0.0, 1.0, 0.01) = 0.;
-uniform float t_color: hint_range(0.0, 1.0, 0.01) = 0.;
+uniform float height: hint_range(0.0, 1.0, 0.01) = 0.;
+uniform float t_spawn: hint_range(0.0, 1.0, 0.01) = 0.;
+uniform float t_despawn: hint_range(0.0, 1.0, 0.01) = 0.;
+uniform uint resolution = 16;
 
 uniform vec3 start_color: source_color;
 uniform vec3 end_color: source_color;
 
-// Converts a color from linear light gamma to sRGB gamma
-vec4 from_linear(vec4 linearRGB) {
-    bvec3 cutoff = lessThan(linearRGB.rgb, vec3(0.0031308));
-    vec3 higher = vec3(1.055)*pow(linearRGB.rgb, vec3(1.0/2.4)) - vec3(0.055);
-    vec3 lower = linearRGB.rgb * vec3(12.92);
-    return vec4(mix(higher, lower, cutoff), linearRGB.a);
+bool in_square(vec2 p, float h) {
+	return abs(p.y) < h;
 }
 
-bool in_star(vec2 p, float t_x, float t_y) {
-	p.x = abs(p.x)/t_x;
-	p.y = abs(p.y)/t_y;
-	return p.x + p.y < 1.;
+bool in_triangle(vec2 p, float t) {
+	return (p.x + abs(p.y) < t);
 }
+
+bool should_render(vec2 p, float t1, float t2, float h) {
+	bool result = true;
+	result = result && in_square(p, h);
+	result = result && in_triangle(p, t1);
+	result = result && !in_triangle(p, t2);
+	return result;
+}
+
+float rand(vec2 co) { return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453); }
 
 void fragment() {
-	vec2 uv = UV;
-	uv = (uv-.5)*2.;
+	if (UV.x < .5) discard;
+	vec2 uv = vec2(
+		UV.x*2.-1.,
+		(UV.y-.5)*2.
+	);
+	uv = floor(uv * float(resolution)) / float(resolution);
 
-	if (!in_star(uv, sqrt(t_size), t_size*t_size)) ALPHA = 0.;
-	else ALPHA = 1.-t_alpha;
-	ALBEDO = vec3(mix(start_color, end_color, t_color));
-
+	if (!should_render(uv, t_spawn, t_despawn, height)) discard;
+	float t_blend = t_despawn * rand(uv);
+	vec3 color = mix(start_color, end_color, t_blend);
+	ALBEDO = color;
 }

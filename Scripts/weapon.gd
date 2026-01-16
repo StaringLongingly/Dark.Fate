@@ -1,4 +1,4 @@
-extends Area3D
+class_name Weapon extends Area3D
 @export var debug: bool = false
 @export var framepacer: Timer
 @export_group("Hit Detection")
@@ -34,12 +34,9 @@ func _animation_hit() -> void:
 	if not animation_detection or not monitoring: return
 	var bodies: Array[Node3D] = get_overlapping_bodies()
 	for body: Node3D in bodies: _damage(body, "animation")
-
-func _physics_process(_delta: float) -> void:
-	# Store previous position for effect calculation
 	if trail and trail.tip_object:
 		previous_tip_position = trail.tip_object.global_position
-	
+
 func _damage(body: Node3D, detection_type: String) -> void:
 	if debug:
 		print("Damaging:")
@@ -51,14 +48,37 @@ func _damage(body: Node3D, detection_type: String) -> void:
 		if debug: print("  Self hit        : " + str(did_it_hit_itsself))
 		return
 	
-	# Effect
+	damage_effect()
+
+func damage_effect():
 	var effect: MeshInstance3D = effect_scene.instantiate()
 	get_node("%Effects").add_child(effect)
-	var effect_position: Vector3 = previous_tip_position
-	if debug: print("  Effect Final Pos: " + str(effect_position))
-	
+	var tip_position: Vector3 = trail.tip_object.global_position
+	var average_position: Vector3 = lerp(previous_tip_position, tip_position, .5)
+	var effect_plane := Plane(
+			(average_position-camera.global_position).normalized(),
+			average_position)
+	var effect_position: Vector3 = effect_plane.project(previous_tip_position)
+	var effect_target_position: Vector3 = effect_plane.project(tip_position)
+
+	var effect_scale = effect.scale
+
+	var x_axis = (effect_position-effect_target_position).normalized()
+	var z_axis = (camera.global_position-effect_target_position).normalized()
+	var y_axis = x_axis.cross(z_axis).normalized()
+	z_axis = y_axis.cross(x_axis).normalized()  # Ensure perfect perpendicularity
+
+	effect.global_transform.basis = Basis(x_axis, y_axis, z_axis)
 	effect.global_position = effect_position
-	effect.look_at(camera.global_position)
+	
+	effect.scale = effect_scale * (effect_target_position-effect_position).length()
+	
+	# Effect Particles
+	var particles: DirectedGPUParticles3D = effect.find_child("DirectedGPUParticles3D")
+	particles.target = self
+	
+	var animation_player: AnimationPlayer = effect.find_child("AnimationPlayer")
+	if animation_player: animation_player.play("Hit")
 
 func _on_body_entered(body: Node3D) -> void:
 	if not body_enter_detection: return

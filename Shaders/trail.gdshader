@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode unshaded, cull_disabled;
+render_mode blend_mix, depth_draw_opaque; // For effects
 uniform sampler2D tex: source_color, filter_nearest;
 
 uniform bool flip_x = false;

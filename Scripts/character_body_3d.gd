@@ -1,4 +1,4 @@
-extends CharacterBody3D
+class_name Player extends CharacterBody3D
 @export var debug: bool = false;
 
 const SPEED_FORWARD = 4.0
