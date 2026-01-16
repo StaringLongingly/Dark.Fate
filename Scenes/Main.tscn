@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=4 uid="uid://dswpx1rq8u2dk"]
+[gd_scene load_steps=81 format=4 uid="uid://dswpx1rq8u2dk"]
 
 [ext_resource type="Script" uid="uid://xq7gnobnqse2" path="res://Scripts/resolution.gd" id="1_r0du0"]
 [ext_resource type="Environment" uid="uid://qufgacix2872" path="res://Enviroments/Prison.tres" id="3_4kpch"]
@@ -21,7 +21,10 @@
 [ext_resource type="Texture2D" uid="uid://dlbnngdo04cv" path="res://Sprites/Attachments/trapezoid_plate.png" id="14_hwpts"]
 [ext_resource type="PackedScene" uid="uid://cj4ulpby5thev" path="res://Scenes/Effects/blood_hit.tscn" id="17_2w5on"]
 [ext_resource type="Shader" uid="uid://sfmbs1bk3um8" path="res://Shaders/blood_hit.gdshader" id="18_346fj"]
-[ext_resource type="Texture2D" uid="uid://c3md0orhqkyen" path="res://Sprites/planks.png" id="21_hwpts"]
+[ext_resource type="Shader" uid="uid://bmr3gn0vm7auh" path="res://Shaders/simple.gdshader" id="21_hwpts"]
+[ext_resource type="Texture2D" uid="uid://c3md0orhqkyen" path="res://Sprites/Enemies/Wooden Maiden/planks.png" id="22_jyqft"]
+[ext_resource type="Texture2D" uid="uid://dxly0453f5r6b" path="res://Sprites/Enemies/Wooden Maiden/wooden_maiden_top.png" id="23_3tgeq"]
+[ext_resource type="Texture2D" uid="uid://bp5o4jvmti2pj" path="res://Sprites/Enemies/Wooden Maiden/wooden_maiden_face.png" id="24_c4ay3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pbw6q"]
 radius = 0.7866211
@@ -3254,11 +3257,46 @@ graph_offset = Vector2(-52, 36.27219)
 [sub_resource type="BoxMesh" id="BoxMesh_jw32o"]
 size = Vector3(20, 1, 20)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jyqft"]
-shading_mode = 0
-albedo_texture = ExtResource("21_hwpts")
-uv1_scale = Vector3(1.6, 1, 1)
-texture_filter = 0
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_aht7i"]
+radius = 0.7651367
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3tgeq"]
+render_priority = 0
+shader = ExtResource("21_hwpts")
+shader_parameter/top_texture = ExtResource("23_3tgeq")
+shader_parameter/side_texture = ExtResource("22_jyqft")
+shader_parameter/bottom_texture = ExtResource("22_jyqft")
+shader_parameter/uv_scale = Vector2(2, 2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_c4ay3"]
+material = SubResource("ShaderMaterial_3tgeq")
+top_radius = 0.8
+bottom_radius = 0.8
+radial_segments = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5jffn"]
+render_priority = 0
+shader = ExtResource("11_fq0cl")
+shader_parameter/tex = ExtResource("24_c4ay3")
+shader_parameter/mesh_size = Vector2(0.5, 0.5)
+shader_parameter/alpha_scissor = 0.5
+shader_parameter/x_mirror = true
+shader_parameter/x_point_0 = Vector2(-0.25, 0)
+shader_parameter/x_point_1 = Vector2(-0.165, 0.04)
+shader_parameter/x_point_2 = Vector2(0.165, 0)
+shader_parameter/x_point_3 = Vector2(0.25, 0)
+shader_parameter/y_mirror = true
+shader_parameter/y_point_0 = Vector2(-0.25, 0)
+shader_parameter/y_point_1 = Vector2(-0.165, 0.04)
+shader_parameter/y_point_2 = Vector2(0.165, 0)
+shader_parameter/y_point_3 = Vector2(0.25, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_kpo4j"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_5jffn")
+size = Vector2(0.5, 0.5)
+subdivide_width = 1
+subdivide_depth = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0sclb"]
 resource_local_to_scene = true
@@ -3724,12 +3762,20 @@ use_collision = true
 mesh = SubResource("BoxMesh_jw32o")
 material = ExtResource("6_v1gob")
 
-[node name="Wooden Maiden" type="CSGCylinder3D" parent="Enviroment/NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9949045, 3.205862)
-use_collision = true
-radius = 0.64501953
-sides = 16
-material = SubResource("StandardMaterial3D_jyqft")
+[node name="CharacterBody3D" type="CharacterBody3D" parent="Enviroment/NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98287916, 3.205862)
+
+[node name="Wooden Maiden" type="CollisionShape3D" parent="Enviroment/NavigationRegion3D/CharacterBody3D"]
+shape = SubResource("CylinderShape3D_aht7i")
+
+[node name="Barrel" type="MeshInstance3D" parent="Enviroment/NavigationRegion3D/CharacterBody3D/Wooden Maiden"]
+transform = Transform3D(0.92718387, 0, 0.3746066, 0, 1, 0, -0.3746066, 0, 0.92718387, 0, 0, 0)
+mesh = SubResource("CylinderMesh_c4ay3")
+
+[node name="Face" type="MeshInstance3D" parent="Enviroment/NavigationRegion3D/CharacterBody3D/Wooden Maiden"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.45590758, -0.73991776)
+mesh = SubResource("QuadMesh_kpo4j")
+skeleton = NodePath("../../Chest")
 
 [node name="Effects" type="Node" parent="."]
 unique_name_in_owner = true
