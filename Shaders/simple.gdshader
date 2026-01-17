@@ -16,7 +16,6 @@ void fragment() {
 	if (model_pos.y > .999) color = texture(top_texture, UV*2.);
 	if (model_pos.y < -.999) color = texture(bottom_texture, UV*2.);
 	
-	
 	ALBEDO = color.rgb;
 	//ALBEDO = vec3(uv, 0.);
 	ALPHA = color.a;
