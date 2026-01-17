@@ -12,7 +12,7 @@
 [ext_resource type="Material" uid="uid://bk5iibndq1vj2" path="res://Materials/Attachments/chest_plate.tres" id="9_2w5on"]
 [ext_resource type="Material" uid="uid://kr2qflh72jsp" path="res://Materials/Attachments/chest_strap.tres" id="10_346fj"]
 [ext_resource type="Shader" uid="uid://ckycfi4jeyi2" path="res://Shaders/attachment.gdshader" id="11_fq0cl"]
-[ext_resource type="Script" uid="uid://ddrsv68hhwl8r" path="res://Scripts/weapon.gd" id="11_grg3l"]
+[ext_resource type="Script" uid="uid://ddrsv68hhwl8r" path="res://Scripts/wieldable.gd" id="11_grg3l"]
 [ext_resource type="Texture2D" uid="uid://v7ejmobxsncp" path="res://Sprites/Attachments/strap.png" id="11_sxkr1"]
 [ext_resource type="Script" uid="uid://bkc5b4myrtvy3" path="res://Scripts/animation_framepacer.gd" id="13_1p5hy"]
 [ext_resource type="Material" uid="uid://bgumykcdxyc6i" path="res://Materials/weapon_trail.tres" id="13_erwvk"]
@@ -3474,6 +3474,7 @@ is_widescreen = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0146788, 0)
 script = ExtResource("3_jw32o")
 model_animation_tree = NodePath("Model/AnimationTree")
+metadata/_custom_type_script = "uid://brhjg7me1vrs7"
 
 [node name="Hurtbox" type="CollisionShape3D" parent="Fate/Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.089538574, 0)
@@ -3822,16 +3823,17 @@ bone_idx = 16
 [node name="Right Palm" type="Node3D" parent="Fate/Player/Model/Fate2/Armature/Skeleton3D/Right Hand"]
 transform = Transform3D(0.9999998, 7.450581e-09, -3.7252903e-09, 0, 0.9999999, 2.3283064e-10, -3.7252903e-09, -2.3283064e-10, 0.9999999, 0.37517262, 5.5166397, -0.024932861)
 
-[node name="Claysword" type="Area3D" parent="Fate/Player/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm" node_paths=PackedStringArray("framepacer", "trail", "camera")]
+[node name="Claysword" type="Area3D" parent="Fate/Player/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm" node_paths=PackedStringArray("wielder", "trail", "camera")]
 transform = Transform3D(0.024083033, 0.29897755, 0.005698681, -0.27141693, 0.019455427, 0.12631075, 0.12551074, -0.015295568, 0.27205357, 6.942776, 0.6472397, -0.79875183)
 monitoring = false
 script = ExtResource("11_grg3l")
-framepacer = NodePath("../../../../../../AnimationTree/Animation Framepacer")
-body_enter_detection = false
+wielder = NodePath("")
 render_priorities = 3
 trail = NodePath("Trail")
 effect_scene = ExtResource("17_2w5on")
 camera = NodePath("../../../../../../../Camera/Camera3D")
+body_enter_detection = false
+debug = true
 
 [node name="Hitbox" type="CollisionShape3D" parent="Fate/Player/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 180, 0)
@@ -3941,5 +3943,4 @@ transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 1
 mesh = SubResource("QuadMesh_sxkr1")
 
 [connection signal="body_entered" from="Fate/Player/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" to="Fate/Player/Model/Fate2/Armature/Skeleton3D/Right Hand/Right Palm/Claysword" method="_on_body_entered"]
-[connection signal="animation_finished" from="Fate/Player/Model/AnimationTree" to="Fate/Player" method="_on_animation_tree_animation_finished"]
 [connection signal="timeout" from="Fate/Player/Model/AnimationTree/Animation Framepacer" to="Fate/Player/Model/AnimationTree/Animation Framepacer" method="_on_timeout"]

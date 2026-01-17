@@ -1,4 +1,4 @@
-extends Timer
+class_name AnimationFramepacer extends Timer
 
 @onready var animation_tree: AnimationTree = $".."
 @export var default_fps: int = 12;
